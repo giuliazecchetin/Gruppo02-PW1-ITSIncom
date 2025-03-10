@@ -3,14 +3,14 @@ package it.itsincom.webdevd;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
+@Path("/employee")
 public class EmployeeResource {
     private final Template employee;
-    private final Template login;
 
-    public EmployeeResource(Template employee, Template login) {
+    public EmployeeResource(Template employee) {
         this.employee = employee;
-        this.login = login;
     }
 
     @GET
