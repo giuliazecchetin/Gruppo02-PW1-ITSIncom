@@ -11,11 +11,11 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
 @Path("/")
-public class LoginResources {
+public class LoginResource {
     private final Template login;
     private final Template employee;
 
-    public LoginResources(Template login, Template employee) {
+    public LoginResource(Template login, Template employee) {
         this.login = login;
         this.employee = employee;
     }
