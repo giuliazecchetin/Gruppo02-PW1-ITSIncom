@@ -21,13 +21,11 @@ public class LoginResource {
     }
 
     @GET
-    @Path("/login")
     public TemplateInstance getLoginPage() {
         return login.instance();
     }
 
     @POST
-    @Path("/employee")
     public Response processLogin(@FormParam("email") String email, @FormParam("password") String password) {
         boolean isAuthenticated = true;
 
