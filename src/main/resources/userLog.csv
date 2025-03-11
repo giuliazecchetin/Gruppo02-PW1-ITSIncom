@@ -1,2 +1,3 @@
-EMAIL,PASSWORD
-mario@gmail.com,123456
+EMAIL,PASSWORD,ROLE
+mario@gmail.com,123456,dipendente
+luigi@gmail.com,123456,portineria

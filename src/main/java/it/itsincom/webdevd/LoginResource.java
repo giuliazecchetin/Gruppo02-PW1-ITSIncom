@@ -32,7 +32,12 @@ public class LoginResource {
     public Response processLogin(@FormParam("email") String email, @FormParam("password") String password) {
         try {
             if (userVer.checkAuthentification(email, password)) {
-                return Response.seeOther(URI.create("/employee")).build();
+                if ("dipendente".equals(userVer.checkUserRole(email, password))) {
+                    return Response.seeOther(URI.create("/employee")).build();
+                } else if ("portineria".equals(userVer.checkUserRole(email, password))) {
+                    return Response.status(401).build();
+                    //Da creare ancora la pagina della portineria
+                }
             }
 
         } catch (FileNotFoundException e) { throw new RuntimeException(e); }
