@@ -1,4 +1,4 @@
-package it.itsincom.webdevd;
+package web;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -7,6 +7,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+import web.validation.UserValidator;
 
 import java.io.FileNotFoundException;
 import java.net.URI;
@@ -15,9 +16,9 @@ import java.net.URI;
 public class LoginResource {
     private final Template login;
     private final Template employee;
-    private final UserVerification userVer;
+    private final UserValidator userVer;
 
-    public LoginResource(Template login, Template employee, UserVerification userVer) {
+    public LoginResource(Template login, Template employee, UserValidator userVer) {
         this.login = login;
         this.employee = employee;
         this.userVer = userVer;

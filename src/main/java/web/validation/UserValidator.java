@@ -1,13 +1,13 @@
-package it.itsincom.webdevd;
+package web.validation;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.*;
 
 @ApplicationScoped
-public class UserVerification {
+public class UserValidator {
     public boolean checkAuthentification(String email, String password) throws FileNotFoundException {
-        File userLog = new File("C:\\Users\\VladyslavBukator\\OneDrive - ITS Incom\\Documenti\\Lezioni ITSINCOM\\Java\\Gruppo02-PW1-ITSIncom\\src\\main\\resources\\userLog.csv");
+        File userLog = new File("src/main/resources/userLog.csv");
         FileReader userReader = new FileReader(userLog);
         boolean isValid = false;
 
@@ -30,7 +30,7 @@ public class UserVerification {
     }
 
     public String checkUserRole(String email, String password) throws FileNotFoundException {
-        File userLog = new File("C:\\Users\\VladyslavBukator\\OneDrive - ITS Incom\\Documenti\\Lezioni ITSINCOM\\Java\\Gruppo02-PW1-ITSIncom\\src\\main\\resources\\userLog.csv");
+        File userLog = new File("src/main/resources/userLog.csv");
         FileReader userReader = new FileReader(userLog);
         String role = "";
 

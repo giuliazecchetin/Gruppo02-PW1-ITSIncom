@@ -1,4 +1,4 @@
-package it.itsincom.webdevd;
+package web;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
