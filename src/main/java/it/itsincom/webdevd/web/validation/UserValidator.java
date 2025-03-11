@@ -39,7 +39,7 @@ public class UserValidator {
         
     }
     public String checkUserRole(String email, String password) throws FileNotFoundException {
-        File userLog = new File("src/main/resources/userLog.csv");
+        File userLog = new File("src/main/resources/data/userLog.csv");
         FileReader userReader = new FileReader(userLog);
         String role = "";
 
