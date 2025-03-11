@@ -1,4 +1,4 @@
-package web;
+package it.itsincom.webdevd;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -7,7 +7,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
-import web.validation.UserValidator;
+import it.itsincom.webdevd.web.validation.UserValidator;
 
 import java.io.FileNotFoundException;
 import java.net.URI;

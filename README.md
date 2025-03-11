@@ -75,7 +75,7 @@ at http://localhost:8080/some-page?name=World
 
 ### REST Qute
 
-Create your web page using Quarkus REST and Qute
+Create your it.itsincom.webdevd.web page using Quarkus REST and Qute
 
 [Related guide section...](https://quarkus.io/guides/qute#type-safe-templates)
 >>>>>>> ac62a55 (Avvio progetto InfoDrive)

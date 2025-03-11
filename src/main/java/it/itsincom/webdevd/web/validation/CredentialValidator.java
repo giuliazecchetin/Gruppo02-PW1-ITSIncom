@@ -1,6 +1,5 @@
-package web.validation;
+package it.itsincom.webdevd.web.validation;
 
-import io.quarkus.security.credential.Credential;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped

@@ -1,4 +1,4 @@
-package web.validation;
+package it.itsincom.webdevd.web.validation;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -7,7 +7,7 @@ import java.io.*;
 @ApplicationScoped
 public class UserValidator {
     public boolean checkAuthentification(String email, String password) throws FileNotFoundException {
-        File userLog = new File("src/main/resources/userLog.csv");
+        File userLog = new File("src/main/resources/data/userLog.csv");
         FileReader userReader = new FileReader(userLog);
         boolean isValid = false;
 
