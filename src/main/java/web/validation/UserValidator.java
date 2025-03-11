@@ -20,7 +20,9 @@ public class UserValidator {
                 if (email.equals(values[0]) && password.equals(values[1])) {
                     return isValid = true;
                 }
+                
             }
+            CredentialValidationErrors credentialValidationErrors = validateAccess(isValid);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -29,6 +31,13 @@ public class UserValidator {
         return isValid;
     }
 
+    public CredentialValidationErrors validateAccess(boolean isValid){
+        if (isValid!=true){
+            return CredentialValidationErrors.INVALID_CREDENTIALS;
+        }
+        return null;
+        
+    }
     public String checkUserRole(String email, String password) throws FileNotFoundException {
         File userLog = new File("src/main/resources/userLog.csv");
         FileReader userReader = new FileReader(userLog);
