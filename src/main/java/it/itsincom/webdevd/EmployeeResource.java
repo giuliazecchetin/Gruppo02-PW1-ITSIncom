@@ -13,8 +13,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.*;
 
 @Path("/employee")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+
 
 
 public class EmployeeResource {
@@ -36,6 +35,7 @@ public class EmployeeResource {
 
 
     @GET
+     @Path("/sort")
     public Response sortVisit() {
         List<Visit> visits = VisitsManager.getAllVisits();
         if (visits == null || visits.isEmpty()) {

@@ -9,7 +9,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+@ApplicationScoped
 public class VisitsManager {
     private static final String CSV_FILE = "src/main/resources/data/visit.csv";
 
