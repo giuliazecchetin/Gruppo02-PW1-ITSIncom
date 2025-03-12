@@ -5,6 +5,49 @@
     <title>Reception</title>
 </head>
 <body>
+<div class="container">
+    <div class="container">
+        <h2>Visite</h2>
+        <div class="visite">
+            <div class="visita">
+                <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Non iniziata</span> Badge: <span class="badge">Non assegnato</span></span>
+                <button class="avvia" onclick="avviaVisita(this)">Avvia</button>
+            </div>
+            <div class="visita">
+                <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Iniziata</span> | Badge: <span class="badge">1</span></span>
+                <button class="termina" onclick="terminaVisita(this)">Termina</button>
+            </div>
+        </div>
+        <h2>Dipendenti</h2>
+        <div class="dipendenti">
+            <div class="dipendenti-grid">
+                <div class="dipendente">Dipendente<br>Luca Rossi</div>
+                <div class="dipendente">Dipendente<br>Luca Rossi</div>
+                <div class="dipendente">Dipendente<br>Luca Rossi</div>
+                <div class="dipendente">Dipendente<br>Luca Rossi</div>
+            </div>
+        </div>
+    </div>
+</div>
 
+    <script>
+
+        function avviaVisita(button) {
+            let visita = button.parentElement;
+            visita.querySelector(".stato").innerText = "Iniziata";
+            visita.querySelector(".badge").innerText = "1";
+            button.classList.remove("avvia");
+            button.classList.add("termina");
+            button.innerText = "Termina";
+            button.setAttribute("onclick", "terminaVisita(this)");
+        }
+
+        function terminaVisita(button) {
+            let visita = button.parentElement;
+            visita.querySelector(".stato").innerText = "Terminata";
+            visita.querySelector(".badge").innerText = "2";
+            button.style.display = "none";
+        }
+    </script>
 </body>
 </html>
