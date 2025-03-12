@@ -11,7 +11,6 @@ public class Visit {
     private String fiscalCodeUser;
     private String fiscalCodeVisitor;
 
-    public Visit() {}
 
     public Visit(String id, String date, String startTime, String endTime, String duration,
                  String badgeCode, String status, String fiscalCodeUser, String fiscalCodeVisitor) {
