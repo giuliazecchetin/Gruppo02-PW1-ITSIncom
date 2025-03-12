@@ -56,5 +56,21 @@ public class Visit {
     public void setFiscalCodeUser(String fiscalCodeUser) { this.fiscalCodeUser = fiscalCodeUser; }
     public String getFiscalCodeVisitor() { return fiscalCodeVisitor; }
     public void setFiscalCodeVisitor(String fiscalCodeVisitor) { this.fiscalCodeVisitor = fiscalCodeVisitor; }
+
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "id='" + id + '\'' +
+                ", date='" + date + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", duration='" + duration + '\'' +
+                ", badgeCode='" + badgeCode + '\'' +
+                ", status='" + status + '\'' +
+                ", fiscalCodeUser='" + fiscalCodeUser + '\'' +
+                ", fiscalCodeVisitor='" + fiscalCodeVisitor + '\'' +
+                '}';
+    }
 }
 

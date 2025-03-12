@@ -15,14 +15,19 @@ public class VisitsManager {
 
     public static List<Visit> getAllVisits() {
         List<Visit> visits = new ArrayList<>();
+        int i =0;
         try (BufferedReader br = Files.newBufferedReader(Paths.get(CSV_FILE))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] fields = line.split(",");
-                if (fields.length == 9) {
-                    visits.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4],
-                            fields[5], fields[6], fields[7], fields[8]));
+                if (i != 0) {
+                    String[] fields = line.split(",");
+                    if (fields.length == 9) {
+                        visits.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4],
+                                fields[5], fields[6], fields[7], fields[8]));
+                    }
+
                 }
+                i++;
             }
         } catch (IOException e) {
             e.printStackTrace();
