@@ -16,11 +16,13 @@ import java.net.URI;
 public class LoginResource {
     private final Template login;
     private final Template employee;
+    private final Template reception;
     private final UserValidator userVer;
 
-    public LoginResource(Template login, Template employee, UserValidator userVer) {
+    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer) {
         this.login = login;
         this.employee = employee;
+        this.reception = reception;
         this.userVer = userVer;
     }
 
@@ -36,7 +38,7 @@ public class LoginResource {
                 if ("dipendente".equals(userVer.checkUserRole(email, password))) {
                     return Response.seeOther(URI.create("/employee")).build();
                 } else if ("portineria".equals(userVer.checkUserRole(email, password))) {
-                    return Response.status(401).build();
+                    return Response.seeOther(URI.create("/reception")).build();
                     //Da creare ancora la pagina della portineria
                 }
             }
