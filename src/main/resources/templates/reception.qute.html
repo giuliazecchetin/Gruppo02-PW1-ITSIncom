@@ -10,6 +10,12 @@
     <div class="container">
         <h2>Visite</h2>
         <div class="visite">
+            {#for x in visit}
+                <div class="visita">
+                    <p>{x}</p>
+                </div>
+            {/for}
+            <!--
             <div class="visita">
                 <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Non iniziata</span> | Badge: <span class="badge">Non assegnato</span></span>
                 <div class="badge-selector">
@@ -23,6 +29,7 @@
                 <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Iniziata</span> | Badge: <span class="badge">1</span></span>
                 <button class="termina" onclick="terminaVisita(this)">Termina</button>
             </div>
+            -->
         </div>
         <h2>Dipendenti</h2>
         <div class="dipendenti">
@@ -33,11 +40,6 @@
                 <div class="dipendente">Dipendente<br>Luca Rossi</div>
             </div>
         </div>
-
-{#for x in visit}
-    <p>{x}</p>
-{/for}
-
     </div>
 </div>
 

@@ -60,17 +60,13 @@ public class Visit {
 
     @Override
     public String toString() {
-        return "Visit{" +
-                "id='" + id + '\'' +
-                ", date='" + date + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", duration='" + duration + '\'' +
-                ", badgeCode='" + badgeCode + '\'' +
-                ", status='" + status + '\'' +
-                ", fiscalCodeUser='" + fiscalCodeUser + '\'' +
-                ", fiscalCodeVisitor='" + fiscalCodeVisitor + '\'' +
-                '}';
+        /*return  id + " " + date + " " + startTime + " " + endTime + " " +
+                duration + " " + badgeCode + " " + status + " " + fiscalCodeUser +
+                fiscalCodeVisitor;
+        */
+        return  startTime + "-" + endTime + " " +
+                fiscalCodeVisitor + " " + fiscalCodeUser + " " +
+                status + " " + badgeCode;
     }
 }
 
