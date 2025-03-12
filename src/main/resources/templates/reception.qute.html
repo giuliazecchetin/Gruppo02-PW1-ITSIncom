@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Reception</title>
+
 </head>
 <body>
 <div class="container">
@@ -10,7 +11,12 @@
         <h2>Visite</h2>
         <div class="visite">
             <div class="visita">
-                <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Non iniziata</span> Badge: <span class="badge">Non assegnato</span></span>
+                <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Non iniziata</span> | Badge: <span class="badge">Non assegnato</span></span>
+                <div class="badge-selector">
+                    <div class="badge-circle" onclick="selezionaBadge(this, 1)">1</div>
+                    <div class="badge-circle" onclick="selezionaBadge(this, 2)">2</div>
+                    <div class="badge-circle" onclick="selezionaBadge(this, 3)">3</div>
+                </div>
                 <button class="avvia" onclick="avviaVisita(this)">Avvia</button>
             </div>
             <div class="visita">
@@ -30,24 +36,29 @@
     </div>
 </div>
 
-    <script>
-
-        function avviaVisita(button) {
-            let visita = button.parentElement;
-            visita.querySelector(".stato").innerText = "Iniziata";
-            visita.querySelector(".badge").innerText = "1";
-            button.classList.remove("avvia");
-            button.classList.add("termina");
-            button.innerText = "Termina";
-            button.setAttribute("onclick", "terminaVisita(this)");
+<script>
+    function selezionaBadge(element, numero) {
+        let visita = element.closest(".visita");
+        let stato = visita.querySelector(".stato").innerText;
+        let badgeText = visita.querySelector(".badge");
+        if (stato === "Non iniziata") {
+            badgeText.innerText = numero;
         }
+    }
+    function avviaVisita(button) {
+        let visita = button.parentElement;
+        visita.querySelector(".stato").innerText = "Iniziata";
+        button.classList.remove("avvia");
+        button.classList.add("termina");
+        button.innerText = "Termina";
+        button.setAttribute("onclick", "terminaVisita(this)");
+    }
 
-        function terminaVisita(button) {
-            let visita = button.parentElement;
-            visita.querySelector(".stato").innerText = "Terminata";
-            visita.querySelector(".badge").innerText = "2";
-            button.style.display = "none";
-        }
-    </script>
+    function terminaVisita(button) {
+        let visita = button.parentElement;
+        visita.querySelector(".stato").innerText = "Terminata";
+        button.style.display = "none";
+    }
+</script>
 </body>
 </html>
