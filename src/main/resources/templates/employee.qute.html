@@ -14,6 +14,7 @@
 <h3>Lista Visite</h3>
 <ul id="visitList"></ul>
 
+
 <h3>Aggiungi Visita</h3>
 <form id="visitForm">
     <label for="date">Data:</label>
@@ -23,46 +24,7 @@
     <button type="submit">Aggiungi</button>
 </form>
 
-<script>
-    function loadVisits() {
-        $.get("/employee/visits", function (data) {
-            let list = $("#visitList");
-            list.empty();
-            data.forEach(visit => {
-                list.append(<li><strong>${visit.date}</strong>: ${visit.description}</li>);
-            });
-        });
-    }
 
-    $("#visitForm").on("submit", function (e) {
-        e.preventDefault();
-        let date = $("#date").val();
-        let description = $("#description").val();
-
-        $.ajax({
-            url: "/employee/visits",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({ date: date, description: description }),
-            success: function () {
-                loadVisits();
-                $("#visitForm")[0].reset();
-            },
-            error: function () {
-                alert("Errore nell'aggiunta della visita");
-            }
-        });
-    });
-
-    $("#search").on("input", function () {
-        let searchValue = $(this).val().toLowerCase();
-        $("#visitList li").each(function () {
-            $(this).toggle($(this).text().toLowerCase().includes(searchValue));
-        });
-    });
-
-    $(document).ready(loadVisits);
-</script>
 
 </body>
 </html>
