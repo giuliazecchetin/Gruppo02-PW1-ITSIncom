@@ -3,28 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visite Employee</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Gestione Visite</title>
+
 </head>
 <body>
+<div class="left-panel">
+    <h2>Impegni Programmati</h2>
+    <ul id="visitList">
+    </ul>
+</div>
+<div class="right-panel">
+    <div class="filter-container">
+        <h3>Filtra Visite</h3>
+        <input type="text" id="search" placeholder="Cerca visita...">
+    </div>
 
-<h3>Filtra Visite</h3>
-<input type="text" id="search" placeholder="Cerca visita...">
+    <div class="form-container">
+        <h2>Compila i dati anagrafici</h2>
+        <form id="visitForm">
+            <input type="text" placeholder="Nome e Cognome" required>
+            <input type="tel" placeholder="Numero di telefono" required>
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Codice Fiscale" required>
+            <h2>Dettagli della visita</h2>
+            <input type="date" id="date" required>
+            <input type="time" required>
+            <input type="time" required>
+            <button type="submit">Prenota</button>
+        </form>
+    </div>
 
-<h3>Lista Visite</h3>
-<ul id="visitList"></ul>
-
-
-<h3>Aggiungi Visita</h3>
-<form id="visitForm">
-    <label for="date">Data:</label>
-    <input type="date" id="date" required>
-    <label for="description">Descrizione:</label>
-    <input type="text" id="description" required>
-    <button type="submit">Aggiungi</button>
-</form>
-
-
-
+    <div class="badge">
+        <div class="text">
+            <p class="role">Dipendente</p>
+            <p>Mario Rossi</p>
+        </div>
+        <div class="icon"></div>
+    </div>
+</div>
 </body>
 </html>
