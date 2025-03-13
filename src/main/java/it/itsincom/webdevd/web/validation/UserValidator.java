@@ -1,36 +1,33 @@
 package it.itsincom.webdevd.web.validation;
 
+import io.quarkus.qute.Template;
+import it.itsincom.webdevd.model.User;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.*;
+import java.util.List;
+
+import it.itsincom.webdevd.service.UsersManager;
 
 @ApplicationScoped
 public class UserValidator {
-    public boolean checkAuthentification(String email, String password) throws FileNotFoundException {
-        File userLog = new File("src/main/resources/data/userLog.csv");
-        FileReader userReader = new FileReader(userLog);
+    private final UsersManager usersManager;
+
+    public UserValidator(UsersManager usersManager) {
+        this.usersManager = usersManager;
+    }
+
+    public boolean checkAuthentification(String email, String password) {
+        List<User> users = usersManager.getallUsers();
         boolean isValid = false;
-
-        try (BufferedReader bf = new BufferedReader(new FileReader(userLog))) {
-            String line;
-
-            while ((line = bf.readLine()) != null) {
-                String[] values = line.split(",");
-
-                if (email.equals(values[0]) && password.equals(values[1])) {
-                    return isValid = true;
-                }
-                
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getEmail().equals(email) && users.get(i).getPassword().equals(password)) {
+                isValid = true;
             }
-            CredentialValidationErrors credentialValidationErrors = validateAccess(isValid);
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return isValid;
     }
-
     public CredentialValidationErrors validateAccess(boolean isValid){
         if (isValid!=true){
             return CredentialValidationErrors.INVALID_CREDENTIALS;
@@ -39,29 +36,18 @@ public class UserValidator {
         
     }
     public String checkUserRole(String email, String password) throws FileNotFoundException {
-        File userLog = new File("src/main/resources/data/userLog.csv");
-        FileReader userReader = new FileReader(userLog);
+        List <User> users = usersManager.getallUsers();
         String role = "";
-
-        try (BufferedReader bf = new BufferedReader(new FileReader(userLog))) {
-            String line;
-
-            while ((line = bf.readLine()) != null) {
-                String[] values = line.split(",");
-
-                if (email.equals(values[0]) && password.equals(values[1])) {
-                    if ("dipendente".equals(values[2])) {
-                        return role = "dipendente";
-                    } else if ("portineria".equals(values[2])) {
-                        return role = "portineria";
-                    }
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getEmail().equals(email) && users.get(i).getPassword().equals(password)) {
+                if (users.get(i).getRole().equals("dipendente")) {
+                    return role = "dipendente";
+                }
+                else if (users.get(i).getRole().equals("portineria")) {
+                    return role = "portineria";
                 }
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return role;
     }
 
