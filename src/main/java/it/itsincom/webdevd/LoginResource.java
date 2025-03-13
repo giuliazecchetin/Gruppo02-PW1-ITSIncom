@@ -1,14 +1,11 @@
 package it.itsincom.webdevd;
 
 import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import it.itsincom.webdevd.web.validation.UserValidator;
-
+import it.itsincom.webdevd.service.SessionManager;
 import java.io.FileNotFoundException;
 import java.net.URI;
 
@@ -18,32 +15,65 @@ public class LoginResource {
     private final Template employee;
     private final Template reception;
     private final UserValidator userVer;
+    private final SessionManager sessionManager;
 
-    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer) {
+    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer, SessionManager sessionManager) {
         this.login = login;
         this.employee = employee;
         this.reception = reception;
         this.userVer = userVer;
+        this.sessionManager = sessionManager;
     }
 
     @GET
-    public TemplateInstance getLoginPage() {
-        return login.instance();
+    public Response getLoginPage(@CookieParam(SessionManager.COOKIE_SESSION) String sessionId) {
+        // Remove the session if it exists
+        if (sessionId != null && !sessionId.isEmpty()) {
+            sessionManager.removeUserFromSession(sessionId);
+        }
+
+        // Create an expired cookie to clear the session cookie
+        NewCookie expiredCookie = new NewCookie(
+                SessionManager.COOKIE_SESSION, // Cookie name
+                "",                           // Empty value
+                "/",                          // Path (must match the original cookie path)
+                null,                         // Domain (null for current domain)
+                NewCookie.DEFAULT_VERSION,    // Version
+                "",                           // Comment
+                0,                            // Max age (0 to expire immediately)
+                false                         // Secure flag (set to true if the original cookie was secure)
+        );
+
+        // Return the login page with the expired cookie
+        return Response.ok(login.instance())
+                .cookie(expiredCookie) // Set the expired cookie
+                .build();
     }
 
     @POST
-    public Response processLogin(@FormParam("email") String email, @FormParam("password") String password) {
-        try {
-            if (userVer.checkAuthentification(email, password)) {
-                if ("dipendente".equals(userVer.checkUserRole(email, password))) {
-                    return Response.seeOther(URI.create("/employee")).build();
-                } else if ("portineria".equals(userVer.checkUserRole(email, password))) {
-                    return Response.seeOther(URI.create("/reception")).build();
-                    //Da creare ancora la pagina della portineria
-                }
-            }
+    public Response processLogin(@FormParam("email") String email, @FormParam("password") String password) throws FileNotFoundException {
+        if (!userVer.checkAuthentification(email, password)) {
+            return Response.status(401).entity("Invalid credentials").build();
+        }
 
-        } catch (FileNotFoundException e) { throw new RuntimeException(e); }
+        // Create a new session cookie
+        NewCookie sessionCookie = new NewCookie(
+                SessionManager.COOKIE_SESSION, // Cookie name
+                String.valueOf(sessionManager.createUserSession(email)), // Cookie value (session ID)
+                "/",                          // Path (must match the path used to clear the cookie)
+                null,                         // Domain (null for current domain)
+                NewCookie.DEFAULT_VERSION,    // Version
+                "",                           // Comment
+                3600,                         // Max age in seconds (e.g., 1 hour)
+                false                         // Secure flag (set to true for HTTPS)
+        );
+
+        // Redirect based on user role
+        if ("dipendente".equals(userVer.checkUserRole(email, password))) {
+            return Response.seeOther(URI.create("/employee")).cookie(sessionCookie).build();
+        } else if ("portineria".equals(userVer.checkUserRole(email, password))) {
+            return Response.seeOther(URI.create("/reception")).cookie(sessionCookie).build();
+        }
 
         return Response.status(401).build();
     }
