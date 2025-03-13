@@ -4,6 +4,7 @@ import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import it.itsincom.webdevd.model.Visit;
 import it.itsincom.webdevd.service.VisitsManager;
+import it.itsincom.webdevd.service.SessionManager;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
@@ -13,26 +14,38 @@ import jakarta.ws.rs.core.Response;
 import java.util.*;
 
 @Path("/employee")
-
-
-
 public class EmployeeResource {
     private final Template employee;
+    private final Template login;
     private final VisitsManager visitsManager;
     private static final String CSV_FILE = "visits.csv";
+    private final SessionManager sessionManager;
 
-    public EmployeeResource(Template employee, VisitsManager visitsManager) {
+    public EmployeeResource(Template employee, Template login, VisitsManager visitsManager, SessionManager sessionManager) {
         this.employee = employee;
+        this.login = login;
         this.visitsManager = visitsManager;
+        this.sessionManager = sessionManager;
     }
 
 
     @GET
-    public TemplateInstance getEmployeePage() {
-        return employee.instance();
+    public Response getEmployeePage(@CookieParam(SessionManager.COOKIE_SESSION) String sessionId) {
+        System.out.println("Session ID: " + sessionId);
+
+        if (sessionId == null || sessionId.isEmpty()) {
+            System.out.println("Redirecting to login page");
+
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(login.data("message", "Unauthorized access. Please login.")
+                            .data("redirect", true))
+                    .build();
+        }
+
+        System.out.println("Accessing Employee page");
+
+        return Response.ok(employee.instance()).build();
     }
-
-
 
     @GET
      @Path("/sort")
