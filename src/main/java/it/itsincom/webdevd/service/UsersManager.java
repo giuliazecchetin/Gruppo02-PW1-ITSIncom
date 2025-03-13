@@ -20,6 +20,7 @@ public class UsersManager {
             String line;
             while ((line = br.readLine()) != null) {
                 if (i != 0) {
+                    line.trim();
                     String[] fields = line.split(",");
                     if (fields.length == 6) {
                         users.add(new User(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]));
