@@ -20,7 +20,7 @@ public class VisitsManager {
             String line;
             while ((line = br.readLine()) != null) {
                 if (i != 0) {
-                    String[] fields = line.split(",");
+                    String[] fields = line.split("','");
                     if (fields.length == 9) {
                         visits.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4],
                                 fields[5], fields[6], fields[7], fields[8]));
@@ -47,8 +47,9 @@ public class VisitsManager {
         visit.setId(UUID.randomUUID().toString());
         visit.calculateDuration();
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(CSV_FILE), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-            String line = String.join(",", visit.getId(), visit.getDate(), visit.getStartTime(), visit.getEndTime(),
-                    visit.getDuration(), visit.getBadgeCode(), visit.getStatus(), visit.getFiscalCodeUser(), visit.getFiscalCodeVisitor());
+
+            String line = String.join("', '", visit.getId(), visit.getDate(), visit.getStartTime(), visit.getEndTime(),
+                    visit.getDuration(), visit.getBadgeCode(), visit.getStatus(), visit.getFiscalCodeUser().replace("'", ""), visit.getFiscalCodeVisitor().replace("'", ""));
             bw.write(line);
             bw.newLine();
         } catch (IOException e) {
