@@ -7,7 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @ApplicationScoped
-public class SessionManager {
+public class CookiesSessionManager {
 
     public static final String COOKIE_SESSION = "Session";
     private final Map<String, String> sessions = new ConcurrentHashMap<>();

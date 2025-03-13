@@ -5,7 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import it.itsincom.webdevd.web.validation.UserValidator;
-import it.itsincom.webdevd.service.SessionManager;
+import it.itsincom.webdevd.service.CookiesSessionManager;
 import java.io.FileNotFoundException;
 import java.net.URI;
 
@@ -15,26 +15,26 @@ public class LoginResource {
     private final Template employee;
     private final Template reception;
     private final UserValidator userVer;
-    private final SessionManager sessionManager;
+    private final CookiesSessionManager cookiesSessionManager;
 
-    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer, SessionManager sessionManager) {
+    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer, CookiesSessionManager cookiesSessionManager) {
         this.login = login;
         this.employee = employee;
         this.reception = reception;
         this.userVer = userVer;
-        this.sessionManager = sessionManager;
+        this.cookiesSessionManager = cookiesSessionManager;
     }
 
     @GET
-    public Response getLoginPage(@CookieParam(SessionManager.COOKIE_SESSION) String sessionId) {
+    public Response getLoginPage(@CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
         // Remove the session if it exists
         if (sessionId != null && !sessionId.isEmpty()) {
-            sessionManager.removeUserFromSession(sessionId);
+            cookiesSessionManager.removeUserFromSession(sessionId);
         }
 
         // Create an expired cookie to clear the session cookie
         NewCookie expiredCookie = new NewCookie(
-                SessionManager.COOKIE_SESSION, // Cookie name
+                CookiesSessionManager.COOKIE_SESSION, // Cookie name
                 "",                           // Empty value
                 "/",                          // Path (must match the original cookie path)
                 null,                         // Domain (null for current domain)
@@ -58,8 +58,8 @@ public class LoginResource {
 
         // Create a new session cookie
         NewCookie sessionCookie = new NewCookie(
-                SessionManager.COOKIE_SESSION, // Cookie name
-                String.valueOf(sessionManager.createUserSession(email)), // Cookie value (session ID)
+                CookiesSessionManager.COOKIE_SESSION, // Cookie name
+                String.valueOf(cookiesSessionManager.createUserSession(email)), // Cookie value (session ID)
                 "/",                          // Path (must match the path used to clear the cookie)
                 null,                         // Domain (null for current domain)
                 NewCookie.DEFAULT_VERSION,    // Version

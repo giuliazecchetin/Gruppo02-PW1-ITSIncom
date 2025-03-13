@@ -1,14 +1,12 @@
 package it.itsincom.webdevd;
 
 import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 import it.itsincom.webdevd.model.Visit;
 import it.itsincom.webdevd.service.VisitsManager;
-import it.itsincom.webdevd.service.SessionManager;
+import it.itsincom.webdevd.service.CookiesSessionManager;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.*;
@@ -19,18 +17,18 @@ public class EmployeeResource {
     private final Template login;
     private final VisitsManager visitsManager;
     private static final String CSV_FILE = "visits.csv";
-    private final SessionManager sessionManager;
+    private final CookiesSessionManager cookiesSessionManager;
 
-    public EmployeeResource(Template employee, Template login, VisitsManager visitsManager, SessionManager sessionManager) {
+    public EmployeeResource(Template employee, Template login, VisitsManager visitsManager, CookiesSessionManager cookiesSessionManager) {
         this.employee = employee;
         this.login = login;
         this.visitsManager = visitsManager;
-        this.sessionManager = sessionManager;
+        this.cookiesSessionManager = cookiesSessionManager;
     }
 
 
     @GET
-    public Response getEmployeePage(@CookieParam(SessionManager.COOKIE_SESSION) String sessionId) {
+    public Response getEmployeePage(@CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
         System.out.println("Session ID: " + sessionId);
 
         if (sessionId == null || sessionId.isEmpty()) {
