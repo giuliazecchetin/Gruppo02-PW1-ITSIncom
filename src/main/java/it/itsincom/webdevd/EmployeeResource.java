@@ -1,6 +1,7 @@
 package it.itsincom.webdevd;
 
 import io.quarkus.qute.Template;
+import it.itsincom.webdevd.model.User;
 import it.itsincom.webdevd.model.Visit;
 import it.itsincom.webdevd.service.VisitsManager;
 import it.itsincom.webdevd.service.CookiesSessionManager;
@@ -41,8 +42,16 @@ public class EmployeeResource {
         }
 
         System.out.println("Accessing Employee page");
+        System.out.println("Session ID: " + sessionId);
+        System.out.println("ritorno = " + cookiesSessionManager.getUserFromSession(sessionId));
+        String fiscalCode = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
+        List<Visit> visits = (List<Visit>) VisitsManager.getVisitByFiscalCodeEmployee(fiscalCode);
+        if (visits == null || visits.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).entity("No visits found for employee ID: ").build();
+        }
 
-        return Response.ok(employee.instance()).build();
+        visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
+        return Response.ok(employee.instance().data(visits)).build();
     }
 
     @GET
@@ -57,17 +66,6 @@ public class EmployeeResource {
         return Response.ok(visits).build();
     }
 
-    @GET
-    @Path("/visits/{employeeId}")
-    public Response getVisitsByEmployee(@PathParam("employeeId") String employeeId) {
-        List<Visit> visits = (List<Visit>) VisitsManager.getVisitByIdEmployee(employeeId);
-        if (visits == null || visits.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).entity("No visits found for employee ID: " + employeeId).build();
-        }
-
-        visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(visits).build();
-    }
 
     @POST
     @Path("/visits")

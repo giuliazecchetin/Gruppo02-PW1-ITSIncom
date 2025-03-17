@@ -7,7 +7,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class VisitsManager {
@@ -36,9 +35,31 @@ public class VisitsManager {
     }
 
 
-    public static Visit getVisitByIdEmployee(String id) {
+    public static Visit getVisitByFiscalCodeEmployee(String fiscalCode) {
         String CSV_FILE = "src/main/resources/data/visit.csv";
+        fiscalCode = fiscalCode.trim();
+        fiscalCode = fiscalCode.toUpperCase();
         List<Visit> visitsByEmployee = new ArrayList<>();
+        int i =0;
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(CSV_FILE))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (i != 0) {
+                    String[] fields = line.split("','");
+                    if (fields.length == 9) {
+                        if (fiscalCode.equals(fields[7])) {
+                            visitsByEmployee.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4],
+                                    fields[5], fields[6], fields[7], fields[8]));
+                        }
+
+                    }
+
+                }
+                i++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return (Visit) visitsByEmployee;
     }
 

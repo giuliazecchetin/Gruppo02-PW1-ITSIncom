@@ -64,7 +64,7 @@ public class UsersManager {
     }
 
 
-    public User getUserByFiscalCode(String fiscalCode) {
+    public User getUserByEmail(String email) {
         User person = null;
         int i = 0;
         try (BufferedReader br = Files.newBufferedReader(Paths.get(CSV_FILE))) {
@@ -73,8 +73,10 @@ public class UsersManager {
                 if (i != 0) {
                     String[] fields = line.split(",");
                     if (fields.length == 6) {
-                        String code = fields[0];
-                        if (code.equals(fiscalCode)) {
+                        String code = fields[2];
+                        code = code.toLowerCase();
+                        code = code.trim();
+                        if (code.equals(email)) {
                             person = new User(fields[0], fields[1], fields[2],
                                     fields[3], fields[4], fields[5]);
                         }

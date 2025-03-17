@@ -1,6 +1,8 @@
 package it.itsincom.webdevd;
 
 import io.quarkus.qute.Template;
+import it.itsincom.webdevd.model.User;
+import it.itsincom.webdevd.service.UsersManager;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
@@ -16,13 +18,14 @@ public class LoginResource {
     private final Template reception;
     private final UserValidator userVer;
     private final CookiesSessionManager cookiesSessionManager;
-
-    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer, CookiesSessionManager cookiesSessionManager) {
+    private final UsersManager usersManager;
+    public LoginResource(Template login, Template employee, Template reception, UserValidator userVer, CookiesSessionManager cookiesSessionManager, UsersManager usersManager) {
         this.login = login;
         this.employee = employee;
         this.reception = reception;
         this.userVer = userVer;
         this.cookiesSessionManager = cookiesSessionManager;
+        this.usersManager = usersManager;
     }
 
     @GET
@@ -55,11 +58,11 @@ public class LoginResource {
         if (!userVer.checkAuthentification(email, password)) {
             return Response.status(401).entity("Invalid credentials").build();
         }
-
+        User user = usersManager.getUserByEmail(email);
         // Create a new session cookie
         NewCookie sessionCookie = new NewCookie(
                 CookiesSessionManager.COOKIE_SESSION, // Cookie name
-                String.valueOf(cookiesSessionManager.createUserSession(email)), // Cookie value (session ID)
+                String.valueOf(cookiesSessionManager.createUserSession(user)), // Cookie value (session ID)
                 "/",                          // Path (must match the path used to clear the cookie)
                 null,                         // Domain (null for current domain)
                 NewCookie.DEFAULT_VERSION,    // Version
