@@ -30,25 +30,23 @@ public class ReceptionResource {
         this.cookiesSessionManager = cookiesSessionManager;
     }
 
+
     @GET
-    public TemplateInstance setReceptionResource(@CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) throws FileNotFoundException {
+    public Response getReceptionPage(@CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
+        System.out.println("Session ID: " + sessionId);
         List<Visit> visitsAll = VisitsManager.getAllVisits();
- {
-            System.out.println("Session ID: " + sessionId);
+        if (sessionId == null || sessionId.isEmpty()) {
+            System.out.println("Redirecting to login page");
 
-            if (sessionId == null || sessionId.isEmpty()) {
-                System.out.println("Redirecting to login page");
-
-                return (TemplateInstance) Response.status(Response.Status.UNAUTHORIZED)
-                        .entity(login.data("message", "Unauthorized access. Please login.")
-                                .data("redirect", true))
-                        .build();
-            }
-
-            System.out.println("Accessing Employee page");
-
-            return (TemplateInstance) Response.ok(reception.instance()).build();
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(login.data("message", "Unauthorized access. Please login.")
+                            .data("redirect", true))
+                    .build();
         }
 
+        System.out.println("Accessing Reception page");
+
+        return Response.ok(reception.instance().data("visit", visitsAll)).build();
     }
+
 }
