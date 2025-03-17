@@ -4,7 +4,7 @@ public class Visitor {
     private String email;
     private String fiscalCode;
     private String nameSurname;
-    private Number phoneNumber;
+    private String phoneNumber;
 
     public Visitor(String email, String fiscalCode, String nameSurname, String phoneNumber) {
         this.email = email;
@@ -37,11 +37,11 @@ public class Visitor {
         this.nameSurname = nameSurname;
     }
 
-    public Number getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Number phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
