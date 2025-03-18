@@ -12,6 +12,11 @@
 <div class="left-panel">
     <h2>Impegni Programmati</h2>
     <ul id="visitList">
+        {#for x in visit}
+            <div class="visita">
+                <p>{x}</p>
+            </div>
+        {/for}
     </ul>
 </div>
 <div class="right-panel">
