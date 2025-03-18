@@ -41,17 +41,17 @@ public class EmployeeResource {
                     .build();
         }
 
-        System.out.println("Accessing Employee page");
-        System.out.println("Session ID: " + sessionId);
-        System.out.println("ritorno = " + cookiesSessionManager.getUserFromSession(sessionId));
         String fiscalCode = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
-        List<Visit> visits = (List<Visit>) VisitsManager.getVisitByFiscalCodeEmployee(fiscalCode);
+        System.out.println(fiscalCode);
+        List<Visit> visits = VisitsManager.getVisitByFiscalCodeEmployee(fiscalCode);
+
         if (visits == null || visits.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).entity("No visits found for employee ID: ").build();
+            return Response.ok(employee.instance()).build();
         }
 
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(employee.instance().data(visits)).build();
+        return Response.ok(employee.instance().data("visit", visits)).build();
+
     }
 
     @GET
