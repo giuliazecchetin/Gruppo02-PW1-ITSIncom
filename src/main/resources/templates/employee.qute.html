@@ -6,47 +6,94 @@
     <title>Gestione Visite</title>
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/employee.css" />
-
 </head>
 <body>
-<div class="left-panel">
-    <h2>Impegni Programmati</h2>
-    <ul id="visitList">
-        {#for x in visit}
-            <div class="visita">
-                <p>{x}</p>
-            </div>
-        {/for}
-    </ul>
-</div>
-<div class="right-panel">
-    <div class="filter-container">
-        <h3>Filtra Visite</h3>
-        <input type="text" id="search" placeholder="Cerca visita...">
+<nav>
+    <div class="filter">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="" height="" color="" fill="none">
+            <path d="M3 7H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 17H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M18 17L21 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M15 7L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 7C6 6.06812 6 5.60218 6.15224 5.23463C6.35523 4.74458 6.74458 4.35523 7.23463 4.15224C7.60218 4 8.06812 4 9 4C9.93188 4 10.3978 4 10.7654 4.15224C11.2554 4.35523 11.6448 4.74458 11.8478 5.23463C12 5.60218 12 6.06812 12 7C12 7.93188 12 8.39782 11.8478 8.76537C11.6448 9.25542 11.2554 9.64477 10.7654 9.84776C10.3978 10 9.93188 10 9 10C8.06812 10 7.60218 10 7.23463 9.84776C6.74458 9.64477 6.35523 9.25542 6.15224 8.76537C6 8.39782 6 7.93188 6 7Z" stroke="currentColor" stroke-width="1.5" />
+            <path d="M12 17C12 16.0681 12 15.6022 12.1522 15.2346C12.3552 14.7446 12.7446 14.3552 13.2346 14.1522C13.6022 14 14.0681 14 15 14C15.9319 14 16.3978 14 16.7654 14.1522C17.2554 14.3552 17.6448 14.7446 17.8478 15.2346C18 15.6022 18 16.0681 18 17C18 17.9319 18 18.3978 17.8478 18.7654C17.6448 19.2554 17.2554 19.6448 16.7654 19.8478C16.3978 20 15.9319 20 15 20C14.0681 20 13.6022 20 13.2346 19.8478C12.7446 19.6448 12.3552 19.2554 12.1522 18.7654C12 18.3978 12 17.9319 12 17Z" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+        <p>21/03/2025</p>
     </div>
 
-    <div class="form-container">
-        <h2>Compila i dati anagrafici</h2>
+    <div class="user">
+        <div class="texts">
+            <p class="role">Dipendente</p>
+            <p class="name">Mario Rossi</p>
+        </div>
+        <div class="pfp-image"></div>
+    </div>
+</nav>
+
+<section class="homepage">
+    <div class="left-panel">
+        <h2>Impegni Programmati</h2>
+        <ul id="visitList">
+            {#for x in visit}
+                <div class="visit">
+                    <input type="checkbox">
+                    <p>{x}</p>
+                </div>
+            {/for}
+        </ul>
+    </div>
+
+    <div class="right-panel">
         <form id="visitForm">
-            <input type="text" placeholder="Nome e Cognome" required="required">
-            <input type="tel" placeholder="Numero di telefono" required="required">
-            <input type="email" placeholder="Email" required="required">
-            <input type="text" placeholder="Codice Fiscale" required="required">
+            <h2>Compila i dati anagrafici</h2>
+
+            <div class="anagraf">
+                <div class="anagraf-input">
+                    <label>Nome e cognome</label>
+                    <input type="text" placeholder="Mario Bianchi" required="required">
+                </div>
+
+                <div class="anagraf-input">
+                    <label>Numero di telefono</label>
+                    <input type="tel" placeholder="+01 234 567 8910" required="required">
+                </div>
+
+                <div class="anagraf-input">
+                    <label>Email</label>
+                    <input type="email" placeholder="mario01@gmail.com" required="required">
+                </div>
+
+                <div class="anagraf-input">
+                    <label>Codice fiscale</label>
+                    <input type="text" placeholder="MRABNCH02M16Z139V" required="required">
+                </div>
+            </div>
+
             <h2>Dettagli della visita</h2>
-            <input type="date" id="date" required="required">
-            <input type="time" required="required">
-            <input type="time" required="required">
-            <button type="submit">Prenota</button>
+
+            <div class="dates">
+                <div class="anagraf-input">
+                    <label>Data visita</label>
+                    <input type="date" id="date" required="required">
+                </div>
+
+                <div class="dates-row">
+                    <div class="anagraf-input">
+                        <label>Orario inizio</label>
+                        <input type="time" required="required">
+                    </div>
+
+                    <div class="anagraf-input">
+                        <label>Orario fine</label>
+                        <input type="time" required="required">
+                    </div>
+                </div>
+            </div>
+
+            <button class="button" type="submit">Prenota</button>
         </form>
     </div>
+</section>
 
-    <div class="badge">
-        <div class="text">
-            <p class="role">Dipendente</p>
-            <p>Mario Rossi</p>
-        </div>
-        <div class="icon"></div>
-    </div>
-</div>
 </body>
 </html>

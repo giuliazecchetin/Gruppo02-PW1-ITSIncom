@@ -19,7 +19,7 @@ public class VisitsManager {
             String line;
             while ((line = br.readLine()) != null) {
                 if (i != 0) {
-                    String[] fields = line.split("','");
+                    String[] fields = line.split(",");
                     if (fields.length == 9) {
                         visits.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4],
                                 fields[5], fields[6], fields[7], fields[8]));
