@@ -57,7 +57,7 @@ public class VisitsManager {
         return visitsById;
     }
 
-    public static List getVisitByFiscalCodeEmployee(String fiscalCode) {
+    public static List<Visit> getVisitByFiscalCodeEmployee(String fiscalCode) {
         String CSV_FILE = "src/main/resources/data/visit.csv";
         fiscalCode = fiscalCode.trim();
         fiscalCode = fiscalCode.toUpperCase();
@@ -68,7 +68,7 @@ public class VisitsManager {
             while ((line = br.readLine()) != null) {
                 if (i != 0) {
                     String[] fields = line.split(",");
-                    if (fiscalCode.equals(fields[7])) {
+                    if (fiscalCode.equals(fields[7].trim())) {
                         visitsByEmployee.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4],
                                 fields[5], fields[6], fields[7], fields[8]));
                     }

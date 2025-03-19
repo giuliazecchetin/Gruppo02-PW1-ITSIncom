@@ -31,7 +31,8 @@ public class Visit {
         LocalTime endTime = LocalTime.parse(end);
         if (endTime.isAfter(startTime)) {
             Duration duration = Duration.between(startTime, endTime);
-            this.duration = duration.toString();
+            long hours = duration.toHours();
+            this.duration = ""+hours;
         }
         else if (endTime.isBefore(startTime)) {
             this.endTime = "";

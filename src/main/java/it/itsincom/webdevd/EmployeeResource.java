@@ -12,6 +12,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
+import java.net.URI;
 import java.util.*;
 
 @Path("/employee")
@@ -73,7 +74,6 @@ public class EmployeeResource {
 
 
     @POST
-    @Path("/visits")
     public Response addVisit(@FormParam("email") String email, @FormParam("fiscalCode")String fiscalCode, @FormParam("nameSurname")String nameSurname, @FormParam("phoneNumber")String phoneNumber, @FormParam("dateVisit") String date, @FormParam("startTime") String startTime, @FormParam("endTime") String endTime, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
         Visitor visitor = new Visitor(email, fiscalCode, nameSurname, phoneNumber);
         VisitorsManager.addVisitor(visitor);
@@ -82,11 +82,11 @@ public class EmployeeResource {
         String status = "NON INIZIATA";
         String fiscalCodeVisitor = visitor.getFiscalCode();
         String fiscalCodeUser = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
-        String badge = "";
-        Visit visit = new Visit(id, date, startTime, endTime, duration, badge,  status, fiscalCodeUser, fiscalCodeVisitor);
-        VisitsManager.addVisit(visit);
+        String badge = "NON ASSEGNATO";
+        Visit newVisit = new Visit(id, date, startTime, endTime, duration, badge,  status, fiscalCodeUser, fiscalCodeVisitor);
+        VisitsManager.addVisit(newVisit);
 
-        return Response.ok(employee.instance()).build();
+        return Response.seeOther(URI.create("/employee")).build();
     }
 
     private boolean isValidVisit(Visit visit) {
