@@ -104,7 +104,7 @@ public class VisitorsManager {
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(CSV_FILE), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
 
             if (searchVisitor == null){
-                String line = String.join("', '", visitor.getEmail(), visitor.getNameSurname(), visitor.getFiscalCode().replace("'", ""), visitor.getPhoneNumber());
+                String line = String.join(",", visitor.getEmail(), visitor.getFiscalCode(), visitor.getNameSurname(), visitor.getPhoneNumber());
                 bw.write(line);
                 bw.newLine();
             } else {

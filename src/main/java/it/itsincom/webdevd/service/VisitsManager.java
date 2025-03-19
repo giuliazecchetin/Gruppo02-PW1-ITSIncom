@@ -91,6 +91,7 @@ public class VisitsManager {
 
         }while (getVisitById(id) != null);
         String dateString = visit.getDate();
+        System.out.println(dateString);
         LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
         LocalDate today = LocalDate.now();
         LocalDate todayPlusDay = LocalDate.now().plusDays(1);
@@ -98,8 +99,8 @@ public class VisitsManager {
         if (date.isEqual(todayPlusDay)|| date.isAfter(todayPlusDay)){
             try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(CSV_FILE), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
 
-                String line = String.join("', '", visit.getId(), visit.getDate(), visit.getStartTime(), visit.getEndTime(),
-                        visit.getDuration(), visit.getBadgeCode(), visit.getStatus(), visit.getFiscalCodeUser().replace("'", ""), visit.getFiscalCodeVisitor().replace("'", ""));
+                String line = String.join(", ", visit.getId(), visit.getDate(), visit.getStartTime(), visit.getEndTime(),
+                        visit.getDuration(), visit.getBadgeCode(), visit.getStatus(), visit.getFiscalCodeUser(), visit.getFiscalCodeVisitor());
                 bw.write(line);
                 bw.newLine();
             } catch (IOException e) {

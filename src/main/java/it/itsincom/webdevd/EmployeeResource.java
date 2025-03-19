@@ -74,7 +74,7 @@ public class EmployeeResource {
 
     @POST
     @Path("/visits")
-    public Response addVisit(@FormParam("email") String email, @FormParam("fiscalCode")String fiscalCode, @FormParam("nameSurname")String nameSurname, @FormParam("phoneNumber")String phoneNumber, @FormParam("date") String date, @FormParam("startTime") String startTime, @FormParam("endTime") String endTime, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
+    public Response addVisit(@FormParam("email") String email, @FormParam("fiscalCode")String fiscalCode, @FormParam("nameSurname")String nameSurname, @FormParam("phoneNumber")String phoneNumber, @FormParam("dateVisit") String date, @FormParam("startTime") String startTime, @FormParam("endTime") String endTime, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
         Visitor visitor = new Visitor(email, fiscalCode, nameSurname, phoneNumber);
         VisitorsManager.addVisitor(visitor);
         String id = " ";
