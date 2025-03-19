@@ -1,0 +1,193 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Helvetica, sans-serif;
+}
+
+:root {
+    --normal-text: 1rem;
+    --white-opacity30: #ffffff30;
+    --primary-color: #9271FF;
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        margin: 1rem 2rem;
+        position: fixed;
+        top: 0;
+        width: 95%;
+        text-align: center;
+        z-index: 1000;
+        transition: background 0.3s;
+        background-color: var(--primary-color);
+        border-radius: 2rem;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+
+
+        & .filter {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            background: var(--white-opacity30);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: var(--normal-text);
+            transition: 0.3s all;
+            cursor: pointer;
+
+            & svg {
+                width: 24px;
+                color: #fff;
+            }
+
+            &:hover {
+                background: #ffffff50;
+            }
+        }
+
+        & .user {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+
+            & .texts {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+                color: #fff;
+
+                & .role {
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+
+                & .name {
+                    font-size: var(--normal-text);
+                }
+            }
+
+            & .pfp-image {
+                width: 60px;
+                height: 60px;
+                background: #fff;
+                clip-path: circle();
+            }
+        }
+    }
+
+
+    body {
+        font-family: Helvetica, sans-serif;
+        background-color: #382673;
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .visite, .dipendenti {
+        background-color: #382673;
+        padding: 20px;
+        border-radius: 25px;
+    }
+
+    .visita {
+        background-color: rgba(255, 255, 255, 0.3);
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+
+    .stato {
+        font-weight: bold;
+        color: #FFD700;
+    }
+
+    .badge-selector {
+        display: flex;
+        gap: 10px;
+    }
+
+    .badge-circle {
+        width: 40px;
+        height: 40px;
+        background-color: #9C7EDB;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s;
+    }
+
+    .badge-circle:hover {
+        transform: scale(1.1);
+    }
+
+    button.avvia {
+        background-color: #00C853;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    button.termina {
+        background-color: #D50000;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .dipendenti-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .dipendente {
+        background-color: rgba(255, 255, 255, 0.30);
+        padding: 20px;
+        text-align: center;
+        border-radius: 25px;
+        font-weight: bold;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+}
