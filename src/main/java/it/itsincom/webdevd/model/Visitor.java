@@ -45,5 +45,4 @@ public class Visitor {
         this.phoneNumber = phoneNumber;
     }
 
-
 }

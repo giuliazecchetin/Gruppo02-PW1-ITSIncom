@@ -3,6 +3,8 @@ package it.itsincom.webdevd;
 import io.quarkus.qute.Template;
 import it.itsincom.webdevd.model.User;
 import it.itsincom.webdevd.model.Visit;
+import it.itsincom.webdevd.model.Visitor;
+import it.itsincom.webdevd.service.VisitorsManager;
 import it.itsincom.webdevd.service.VisitsManager;
 import it.itsincom.webdevd.service.CookiesSessionManager;
 import jakarta.ws.rs.GET;
@@ -19,12 +21,15 @@ public class EmployeeResource {
     private final VisitsManager visitsManager;
     private static final String CSV_FILE = "visits.csv";
     private final CookiesSessionManager cookiesSessionManager;
+    private final VisitorsManager visitorsManager;
 
-    public EmployeeResource(Template employee, Template login, VisitsManager visitsManager, CookiesSessionManager cookiesSessionManager) {
+    public EmployeeResource(Template employee, Template login, VisitsManager visitsManager, CookiesSessionManager cookiesSessionManager, VisitorsManager visitorsManager) {
         this.employee = employee;
         this.login = login;
         this.visitsManager = visitsManager;
+
         this.cookiesSessionManager = cookiesSessionManager;
+        this.visitorsManager = visitorsManager;
     }
 
 
@@ -69,13 +74,19 @@ public class EmployeeResource {
 
     @POST
     @Path("/visits")
-    public Response addVisit(Visit visit) {
-        if (!isValidVisit(visit)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid visit data").build();
-        }
-
+    public Response addVisit(@FormParam("email") String email, @FormParam("fiscalCode")String fiscalCode, @FormParam("nameSurname")String nameSurname, @FormParam("phoneNumber")String phoneNumber, @FormParam("date") String date, @FormParam("startTime") String startTime, @FormParam("endTime") String endTime, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
+        Visitor visitor = new Visitor(email, fiscalCode, nameSurname, phoneNumber);
+        VisitorsManager.addVisitor(visitor);
+        String id = " ";
+        String duration = "";
+        String status = "NON INIZIATA";
+        String fiscalCodeVisitor = visitor.getFiscalCode();
+        String fiscalCodeUser = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
+        String badge = "";
+        Visit visit = new Visit(id, date, startTime, endTime, duration, badge,  status, fiscalCodeUser, fiscalCodeVisitor);
         VisitsManager.addVisit(visit);
-        return Response.ok(visit).build();
+
+        return Response.ok(employee.instance()).build();
     }
 
     private boolean isValidVisit(Visit visit) {

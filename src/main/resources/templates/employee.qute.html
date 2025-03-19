@@ -44,28 +44,28 @@
     </div>
 
     <div class="right-panel">
-        <form id="visitForm">
+        <form id="visitForm" action="/employee/visits" method="post">
             <h2>Compila i dati anagrafici</h2>
 
             <div class="anagraf">
                 <div class="anagraf-input">
                     <label>Nome e cognome</label>
-                    <input type="text" placeholder="Mario Bianchi" required="required">
+                    <input type="text" name = "nameSurname" placeholder="Mario Bianchi" required="required">
                 </div>
 
                 <div class="anagraf-input">
                     <label>Numero di telefono</label>
-                    <input type="tel" placeholder="+01 234 567 8910" required="required">
+                    <input type="tel" name = "phoneNumber" placeholder="+01 234 567 8910" required="required">
                 </div>
 
                 <div class="anagraf-input">
                     <label>Email</label>
-                    <input type="email" placeholder="mario01@gmail.com" required="required">
+                    <input type="email" name = "email" placeholder="mario01@gmail.com" required="required">
                 </div>
 
                 <div class="anagraf-input">
                     <label>Codice fiscale</label>
-                    <input type="text" placeholder="MRABNCH02M16Z139V" required="required">
+                    <input type="text" name = "fiscalCode" placeholder="MRABNCH02M16Z139V" required="required">
                 </div>
             </div>
 
@@ -74,18 +74,18 @@
             <div class="dates">
                 <div class="anagraf-input">
                     <label>Data visita</label>
-                    <input type="date" id="date" required="required">
+                    <input type="date" name= "dateVisit" id="date" required="required">
                 </div>
 
                 <div class="dates-row">
                     <div class="anagraf-input">
                         <label>Orario inizio</label>
-                        <input type="time" required="required">
+                        <input type="time" name = "startTime" required="required">
                     </div>
 
                     <div class="anagraf-input">
                         <label>Orario fine</label>
-                        <input type="time" required="required">
+                        <input type="time" name = "endTime" required="required">
                     </div>
                 </div>
             </div>
