@@ -1,5 +1,9 @@
 package it.itsincom.webdevd.model;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Visit {
     private String id;
     private String date;
@@ -10,10 +14,10 @@ public class Visit {
     private String status;
     private String fiscalCodeUser;
     private String fiscalCodeVisitor;
+    private Visitor visitor;
 
 
-    public Visit(String id, String date, String startTime, String endTime, String duration,
-                 String badgeCode, String status, String fiscalCodeUser, String fiscalCodeVisitor) {
+    public Visit(String id, String date, String startTime, String endTime, String duration, String badgeCode,String status, String fiscalCodeUser, String fiscalCodeVisitor) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
@@ -25,22 +29,32 @@ public class Visit {
         this.fiscalCodeVisitor = fiscalCodeVisitor;
     }
 
-    public void calculateDuration() {
-        try {
-            String[] start = startTime.split(":");
-            String[] end = endTime.split(":");
-            int startMinutes = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
-            int endMinutes = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
-            this.duration = String.valueOf(endMinutes - startMinutes) + " min";
-        } catch (Exception e) {
-            this.duration = "0 min";
+    public void calculateDuration(String start, String end) {
+        LocalTime startTime = LocalTime.parse(start);
+        LocalTime endTime = LocalTime.parse(end);
+        if (endTime.isAfter(startTime)) {
+            Duration duration = Duration.between(startTime, endTime);
+            long hours = duration.toHours();
+            this.duration = ""+hours;
         }
+        else if (endTime.isBefore(startTime)) {
+            this.endTime = "";
+        }
+
     }
 
     // Getters e Setters
     public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String setId(String id) { this.id = id;
+        return id;
+    }
     public String getDate() { return date; }
+
+
+    public LocalDate getLocalDate() {
+        String date1 = date.trim();
+        return LocalDate.parse(date1);
+    }
     public void setDate(String date) { this.date = date; }
     public String getStartTime() { return startTime; }
     public void setStartTime(String startTime) { this.startTime = startTime; }
@@ -63,9 +77,8 @@ public class Visit {
                 duration + " " + badgeCode + " " + status + " " + fiscalCodeUser +
                 fiscalCodeVisitor;
         */
-        return  startTime + "-" + endTime + " " +
-                fiscalCodeVisitor + " " + fiscalCodeUser + " " +
-                status + " " + badgeCode;
+        return  startTime.trim() + " - " + endTime.trim() + " " + date.trim() +
+                  " " + " " ;
     }
 }
 

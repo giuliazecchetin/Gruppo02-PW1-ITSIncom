@@ -12,6 +12,8 @@ body {
     url('background.jpg');
     background-size: cover;
     background-position: right bottom;
+    overflow: hidden;
+
 }
 
 #logo{
@@ -61,6 +63,8 @@ label {
 
 input {
     border: none;
+    box-shadow: none;
+    outline: none;
     border-radius: 30px;
     padding: 1rem 2rem;
     height: 2rem;
@@ -69,15 +73,19 @@ input {
 }
 
 button {
+    width: 30vw;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    color: #fff;
+    background: #9271FF;
+    font-size: 1rem;
+    transition: 0.3s all;
+    cursor: pointer;
 
-    background-color: #9271FF;
-    font-weight: bold;
-    width: 552px;
-    height: 60px;
-    border-radius: 16px;
-    color: #ffffff;
-    font-size: 20px;
-    margin-top: 80px;
+    &:hover {
+        background: #6a50c3;
+    }
 }
 
 input::placeholder {
@@ -87,4 +95,13 @@ input::placeholder {
 
 }
 
+.error-message {
+    margin-top: 10px;
+    color: lightcoral;
+
+    padding: 10px;
+
+    text-align: center;
+    font-weight: bold;
+}
 

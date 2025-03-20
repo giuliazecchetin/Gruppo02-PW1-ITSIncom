@@ -37,7 +37,7 @@ public class UsersManager {
         return users;
     }
 
-    public List<User> getAllEmployees() {
+    public static List<User> getAllEmployees() {
         List<User> users = new ArrayList<>();
         int i = 0;
         try (BufferedReader br = Files.newBufferedReader(Paths.get(CSV_FILE))) {
