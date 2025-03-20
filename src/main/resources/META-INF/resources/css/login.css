@@ -95,4 +95,13 @@ input::placeholder {
 
 }
 
+.error-message {
+    margin-top: 10px;
+    color: lightcoral;
+
+    padding: 10px;
+
+    text-align: center;
+    font-weight: bold;
+}
 

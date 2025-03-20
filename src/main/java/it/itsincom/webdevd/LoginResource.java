@@ -57,7 +57,7 @@ public class LoginResource {
     public Response processLogin(@FormParam("email") String email, @FormParam("password") String password) throws FileNotFoundException {
         if (!userVer.checkAuthentification(email, password)) {
             return Response.status(401).
-                    entity(login.data("message","Invalid credentials! Please, try again.")).build();
+                    entity(login.data("message","Credenziali invalide! Per favore, riprova.")).build();
         }
         User user = usersManager.getUserByEmail(email);
         // Create a new session cookie
