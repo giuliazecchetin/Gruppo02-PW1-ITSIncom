@@ -58,6 +58,7 @@ public class ReceptionResource {
         today.format(formatter);
         List<User> users = UsersManager.getAllEmployees();
 
+
         if (visits == null || visits.isEmpty()) {
             return Response.ok(reception.instance()).build();
         }
@@ -71,6 +72,7 @@ public class ReceptionResource {
     public Response sortVisit(@QueryParam("dateSort") String dateSort, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
         LocalDate datePr;
         List<Visit> visits;
+        List<User> users = UsersManager.getAllEmployees();
         visits = VisitsManager.getAllVisits();
         if (visits == null || visits.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No visits found").build();
@@ -83,14 +85,14 @@ public class ReceptionResource {
             visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
             visits.removeLast();
             System.out.println(visits);
-            return Response.ok(reception.data("visit", visits , "today", today, "nome",nameUser)).build();
+            return Response.ok(reception.data("visit", visits , "today", today, "nome",nameUser, "employees", users)).build();
         }
         datePr = LocalDate.parse(dateSort);
 
 
         List <Visit> visitsWithSpecificDate = null;
         visitsWithSpecificDate = visits.stream().filter(v-> v.getLocalDate().isEqual(datePr)).toList();
-        return Response.ok(reception.data("visit", visitsWithSpecificDate , "today", today, "nome",nameUser)).build();
+        return Response.ok(reception.data("visit", visitsWithSpecificDate , "today", today, "nome",nameUser, "employees", users)).build();
     }
 
     @POST
