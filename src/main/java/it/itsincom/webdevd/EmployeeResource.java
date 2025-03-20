@@ -70,19 +70,25 @@ public class EmployeeResource {
     @GET
      @Path("/sort")
     public Response sortVisit(@QueryParam("dateSort") String dateSort, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
-        LocalDate datePr = LocalDate.parse(dateSort);
-        List<Visit> visits = VisitsManager.getAllVisits();
+        LocalDate datePr;
+        List<Visit> visits;
+        visits = VisitsManager.getAllVisits();
         if (visits == null || visits.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No visits found").build();
-        }
-        if (dateSort == null){
-            visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-            return Response.ok(visits).build();
         }
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         today.format(formatter);
         String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
+        if (dateSort == null){
+            visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
+            visits.removeLast();
+            System.out.println(visits);
+            return Response.ok(employee.data("visit", visits , "today", today, "nome",nameUser)).build();
+        }
+        datePr = LocalDate.parse(dateSort);
+
+
         List <Visit> visitsWithSpecificDate = null;
         visitsWithSpecificDate = visits.stream().filter(v-> v.getLocalDate().isEqual(datePr)).toList();
         return Response.ok(employee.data("visit", visitsWithSpecificDate , "today", today, "nome",nameUser)).build();
