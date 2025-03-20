@@ -12,6 +12,7 @@ body {
     url('background.jpg');
     background-size: cover;
     background-position: right bottom;
+    overflow: hidden;
 
 }
 
@@ -72,14 +73,19 @@ input {
 }
 
 button {
-    background-color: #9271FF;
-    font-weight: bold;
-    width: 552px;
-    height: 60px;
-    border-radius: 16px;
-    color: #ffffff;
-    font-size: 20px;
-    margin-top: 80px;
+    width: 30vw;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    color: #fff;
+    background: #9271FF;
+    font-size: 1rem;
+    transition: 0.3s all;
+    cursor: pointer;
+
+    &:hover {
+        background: #6a50c3;
+    }
 }
 
 input::placeholder {

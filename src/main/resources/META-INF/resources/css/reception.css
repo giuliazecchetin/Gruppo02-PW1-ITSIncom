@@ -18,17 +18,13 @@ body {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
-        margin: 1rem 2rem;
+        padding: 2rem;
         position: fixed;
         top: 0;
-        width: 95%;
-        text-align: center;
-        z-index: 1000;
+        width: 100vw;
+        z-index: 10;
         transition: background 0.3s;
-        background-color: var(--primary-color);
-        border-radius: 2rem;
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        background-color: #382673;
 
 
         & .filter {
