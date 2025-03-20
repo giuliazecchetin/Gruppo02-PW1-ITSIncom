@@ -54,11 +54,6 @@ public class ReceptionResource {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         today.format(formatter);
 
-        if (visits == null || visits.isEmpty()) {
-            System.out.println("⚠ Nessuna visita trovata");
-            return Response.ok(reception.data("message", "Nessuna visita trovata", "today", today, "nome", nameUser, "employees", users)).build();
-        }
-
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
         return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users)).build();
     }
@@ -68,10 +63,6 @@ public class ReceptionResource {
     public Response sortVisit(@QueryParam("dateSort") String dateSort, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
         List<Visit> visits = VisitsManager.getAllVisits();
         List<User> users = UsersManager.getAllEmployees();
-
-        if (visits == null || visits.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).entity("No visits found").build();
-        }
 
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -99,7 +90,7 @@ public class ReceptionResource {
             cookiesSessionManager.removeUserFromSession(sessionId);
         }
         return Response.seeOther(URI.create("/login"))
-                .cookie(new NewCookie(cookiesSessionManager.COOKIE_SESSION, "", "/login", null, "Session expired", 0, false))
+                .cookie(new NewCookie(CookiesSessionManager.COOKIE_SESSION, "", "/login", null, "Session expired", 0, false))
                 .build();
     }
 }
