@@ -108,13 +108,15 @@
             -->
         </div>
         <h2>Dipendenti</h2>
-        <div class="dipendenti">
+        <div class="dipendenti-grid">
             {#for y in employees}
-                <div class="dipendenti-grid">
-                    <div class="dipendente">Dipendente<br><span class="dipendent">{y.nameSurname}</span></div>
+                <div class="dipendente">
+                    Dipendente<br>
+                    <span class="dipendent">{y.nameSurname}</span>
                 </div>
             {/for}
         </div>
+
     </div>
 </div>
 
