@@ -63,7 +63,7 @@ public class EmployeeResource {
         }
 
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(employee.data("visit", visits , "today", today, "nome",nameUser )).build();
+        return Response.ok(employee.data("visit", visits, "today", today, "nome", nameUser)).build();
 
     }
 
@@ -130,7 +130,6 @@ public class EmployeeResource {
                 .cookie(new NewCookie(cookiesSessionManager.COOKIE_SESSION, "", "/login", null, "Session expired", 0, false))
                 .build();
     }
-
 
 
     private boolean isValidVisit(Visit visit) {

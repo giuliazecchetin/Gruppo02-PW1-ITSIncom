@@ -48,12 +48,16 @@
     <div class="container">
         <h2>Visite</h2>
         <div class="visite">
+            {#if visit.isEmpty()}
+                <p class="no-visits">Nessuna visita trovata per questa data.</p>
+            {/if}
             {#for x in visit}
                 {#if today.isAfter(x.getLocalDate())}
                     <div class="visita" style="opacity: 0.3">
                         <div class="visit-column">
                             <p class="date-display">{x.date}</p>
                             <p class="time-display">{x.startTime} - {x.endTime}</p>
+
                         </div>
 
                         <div class="visit-column inline">
