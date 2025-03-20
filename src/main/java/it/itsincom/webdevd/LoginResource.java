@@ -48,7 +48,7 @@ public class LoginResource {
         );
 
         // Return the login page with the expired cookie
-        return Response.ok(login.instance())
+        return Response.ok(login.data("message",null))
                 .cookie(expiredCookie) // Set the expired cookie
                 .build();
     }
@@ -56,7 +56,8 @@ public class LoginResource {
     @POST
     public Response processLogin(@FormParam("email") String email, @FormParam("password") String password) throws FileNotFoundException {
         if (!userVer.checkAuthentification(email, password)) {
-            return Response.status(401).entity("Invalid credentials").build();
+            return Response.status(401).
+                    entity(login.data("message","Invalid credentials! Please, try again.")).build();
         }
         User user = usersManager.getUserByEmail(email);
         // Create a new session cookie
