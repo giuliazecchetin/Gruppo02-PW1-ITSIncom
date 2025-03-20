@@ -163,19 +163,41 @@ nav {
 
         & .visit {
             display: flex;
-            justify-content: start;
+            justify-content: space-evenly;
             align-items: center;
             background: var(--white-opacity30);
             padding: 1rem 3rem;
             gap: 1rem;
-            width: 50vw;
-            height: 6rem;
+            width: 40vw;
+            height: 8rem;
             border-radius: 2rem;
             font-size: 1rem;
+
+            & .date-display {
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
         }
 
         & .visit-gone {
             opacity: 0.3;
+        }
+
+        & .visit-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        & .inline {
+            justify-content: start;
+            align-items: start;
+
+            & strong {
+                font-size: 1.2rem;
+            }
         }
     }
 }

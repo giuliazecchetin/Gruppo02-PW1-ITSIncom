@@ -51,13 +51,29 @@
             {#for x in visit}
                 {#if today.isAfter(x.getLocalDate())}
                     <div class="visit visit-gone">
-                        <p>{x.startTime} - {x.endTime}  {x.date} Visitatore : {x.fiscalCodeVisitor}</p>
+                        <div class="visit-column">
+                            <p class="date-display">{x.date}</p>
+                            <p class="time-display">{x.startTime} - {x.endTime}</p>
+                        </div>
+
+                        <div class="visit-column inline">
+                            <p>Visitatore : {x.fiscalCodeVisitor}</p>
+                            <p>Dipendente : {x.fiscalCodeUser}</p>
+                        </div>
                     </div>
                 {/if}
 
                 {#if today.isBefore(x.getLocalDate())}
                     <div class="visit">
-                        <p>{x.startTime} - {x.endTime} {x.date} Visitatore : {x.fiscalCodeVisitor}</p>
+                        <div class="visit-column">
+                            <p class="date-display">{x.date}</p>
+                            <p class="time-display">{x.startTime} - {x.endTime}</p>
+                        </div>
+
+                        <div class="visit-column inline">
+                            <p>Visitatore : <strong>{x.fiscalCodeVisitor}</strong></p>
+                            <p>Dipendente :  <strong>{x.fiscalCodeUser} </strong></p>
+                        </div>
                     </div>
                 {/if}
             {/for}
