@@ -42,10 +42,10 @@ public class EmployeeResource {
         System.out.println("Session ID: " + sessionId);
 
         if (sessionId == null || sessionId.isEmpty()) {
-            System.out.println("Redirecting to login page");
+            System.out.println("Reindirizzamento alla login page.");
 
             return Response.status(Response.Status.UNAUTHORIZED)
-                    .entity(login.data("message", "Unauthorized access. Please login.")
+                    .entity(login.data("message", "Accesso non autorizzato. Per favore, effettua l'accesso.")
                             .data("redirect", true))
                     .build();
         }

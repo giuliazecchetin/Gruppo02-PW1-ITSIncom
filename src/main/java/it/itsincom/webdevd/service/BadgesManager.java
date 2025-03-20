@@ -34,7 +34,6 @@ public class BadgesManager {
                          visible= true;
                     }
                     if (visible) {
-                        System.out.println("SONO GAY");
                         badges.add(new Badge(fields[INDEX_BADGECODE], Integer.parseInt(fields[INDEX_BADGENUMBER].trim()), Boolean.getBoolean(fields[INDEX_BADGEVISIBILITY].trim())));
                     }
 

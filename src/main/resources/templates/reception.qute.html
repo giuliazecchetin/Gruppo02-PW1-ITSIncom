@@ -110,19 +110,23 @@
                                 <p>{x.status}</p>
                             </div>
                         {/if}
+
+
                         <div class="badge-selector">
-
                             <form action=".." method="post">
-
-                                    {#for z in badge}
-
-                                        <label><button class="badge-circle">{z.badgeNumber}</button></label>
-
-                                    {/for}
-
-
+                                <div class="badge-container">
+                                    <p class="badge-title">Badge:</p> <!-- Testo Badge -->
+                                    <div class="badge-buttons">
+                                        {#for z in badge}
+                                            <label>
+                                                <button class="badge-circle">{z.badgeNumber}</button>
+                                            </label>
+                                        {/for}
+                                    </div>
+                                </div>
                             </form>
                         </div>
+
 
                         <button class="avvia" onclick="avviaVisita(this)">Avvia</button>
                     </div>

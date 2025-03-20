@@ -177,19 +177,32 @@ nav {
         color: white;
     }
 
-    .stato {
-        font-weight: bold;
-        color: #FFD700;
-    }
+.badge-container {
+    display: flex;
+    align-items: center; /* Allinea verticalmente */
+    gap: 1rem; /* Spazio tra "Badge:" e i bottoni */
+}
+
+.badge-title {
+    white-space: nowrap; /* Evita che vada a capo */
+}
+
+.badge-buttons {
+    display: flex;
+    gap: 0.5rem; /* Spazio tra i bottoni */
+}
+
 
     .badge-selector {
         display: flex;
-        gap: 10px;
+        gap: 50px;
+
     }
 
     .badge-circle {
         width: 40px;
         height: 40px;
+        gap: 10rem;
         background-color: #9C7EDB;
         display: flex;
         align-items: center;
@@ -197,12 +210,19 @@ nav {
         border-radius: 50%;
         cursor: pointer;
         font-weight: bold;
+        color: white;
         transition: transform 0.2s;
+        border: none;
     }
 
     .badge-circle:hover {
         transform: scale(1.1);
     }
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
     button.avvia {
         background-color: #00C853;

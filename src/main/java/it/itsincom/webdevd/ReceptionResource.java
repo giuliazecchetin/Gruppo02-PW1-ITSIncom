@@ -115,6 +115,7 @@ public class ReceptionResource {
     @Path("/badge")
     public Response badge(@QueryParam("badge") String badge) {
 
+        return null;
     }
 
 }
