@@ -118,6 +118,10 @@ nav {
             border-radius: 2rem;
             font-size: 1rem;
         }
+
+        & .visit-gone {
+            opacity: 0.3;
+        }
     }
 }
 

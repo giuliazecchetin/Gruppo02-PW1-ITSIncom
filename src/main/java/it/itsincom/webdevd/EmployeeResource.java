@@ -10,6 +10,7 @@ import it.itsincom.webdevd.service.CookiesSessionManager;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
@@ -68,14 +69,23 @@ public class EmployeeResource {
 
     @GET
      @Path("/sort")
-    public Response sortVisit() {
+    public Response sortVisit(@QueryParam("dateSort") String dateSort, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
+        LocalDate datePr = LocalDate.parse(dateSort);
         List<Visit> visits = VisitsManager.getAllVisits();
         if (visits == null || visits.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No visits found").build();
         }
-
-        visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(visits).build();
+        if (dateSort == null){
+            visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
+            return Response.ok(visits).build();
+        }
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        today.format(formatter);
+        String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
+        List <Visit> visitsWithSpecificDate = null;
+        visitsWithSpecificDate = visits.stream().filter(v-> v.getLocalDate().isEqual(datePr)).toList();
+        return Response.ok(employee.data("visit", visitsWithSpecificDate , "today", today, "nome",nameUser)).build();
     }
 
 
@@ -94,6 +104,20 @@ public class EmployeeResource {
 
         return Response.seeOther(URI.create("/employee")).build();
     }
+
+
+    @POST
+    @Path("/logout")
+    public Response logout(@CookieParam(CookiesSessionManager.COOKIE_SESSION) String SessionId) {
+        if (SessionId != null) {
+            cookiesSessionManager.removeUserFromSession(SessionId);
+        }
+        return Response.seeOther(URI.create("/login"))
+                .cookie(new NewCookie(cookiesSessionManager.COOKIE_SESSION, "", "/login", null, "Session expired", 0, false))
+                .build();
+    }
+
+
 
     private boolean isValidVisit(Visit visit) {
         return visit != null &&
