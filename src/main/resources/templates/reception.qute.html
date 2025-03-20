@@ -113,13 +113,14 @@
 
 
                         <div class="badge-selector">
-                            <form action=".." method="post">
+                            <form action="/reception/badge" method="post">
                                 <div class="badge-container">
-                                    <p class="badge-title">Badge:</p> <!-- Testo Badge -->
+                                    <p class="badge-title">Badge:</p>
                                     <div class="badge-buttons">
                                         {#for z in badge}
                                             <label>
                                                 <button class="badge-circle">{z.badgeNumber}</button>
+                                                <input type="hidden" name="id" value="{visit.id}">
                                             </label>
                                         {/for}
                                     </div>

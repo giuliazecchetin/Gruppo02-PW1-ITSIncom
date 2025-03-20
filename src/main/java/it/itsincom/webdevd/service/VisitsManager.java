@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 @ApplicationScoped
 public class VisitsManager {
@@ -156,5 +157,19 @@ public class VisitsManager {
 
         }
         }
+    public static void removeVisit(Visit visit) {
+
+        try {
+            updatedLines = Files.lines(path)
+                    .filter(line -> !line.startsWith(fiscalCodeToDelete + ",")) // Assuming CSV is comma-separated
+                    .collect(Collectors.toList());
+
+            // Write back the updated content
+            Files.write(path, updatedLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            System.out.println("Deleted line with fiscalCode: " + fiscalCodeToDelete);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

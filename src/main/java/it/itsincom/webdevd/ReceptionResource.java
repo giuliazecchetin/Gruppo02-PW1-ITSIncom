@@ -112,10 +112,43 @@ public class ReceptionResource {
     }
 
     @POST
-    @Path("/badge")
-    public Response badge(@QueryParam("badge") String badge) {
 
-        return null;
+        @Path("/badge")
+        public Response badge(
+                @QueryParam("badge") String badge,
+                @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId,
+                @FormParam("id") String idVisit) {
+
+            String fiscalCode = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
+            String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
+            System.out.println("Fiscal Code: " + fiscalCode);
+
+            List<Visit> visits = VisitsManager.getAllVisits();
+            LocalDate today = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = today.format(formatter); // Store the formatted date
+
+            List<User> users = UsersManager.getAllEmployees();
+            List<Badge> badges = BadgesManager.getAllBadges();
+
+            if (visits == null || visits.isEmpty()) {
+                return Response.ok(reception.instance()).build();
+            }
+
+            for (Visit v : visits) {
+                // Example: Print visit ID
+                System.out.println("Visit ID: " + v.getId());
+            }
+
+            visits.sort(Comparator.comparing(Visit::getDate)
+                    .thenComparing(Visit::getStartTime)
+                    .reversed());
+
+            return Response.ok(reception.data("visit", visits, "today", formattedDate, "nome", nameUser, "employees", users, "badge", badges)).build();
+        }
     }
+
+
+
 
 }
