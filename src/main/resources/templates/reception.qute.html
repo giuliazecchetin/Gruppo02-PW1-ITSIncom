@@ -32,13 +32,13 @@
                         <path d="M15 17.625C14.9264 19.4769 13.3831 21.0494 11.3156 20.9988C10.8346 20.9871 10.2401 20.8194 9.05112 20.484C6.18961 19.6769 3.70555 18.3204 3.10956 15.2816C3 14.723 3 14.0944 3 12.8373L3 11.1627C3 9.90561 3 9.27704 3.10956 8.71845C3.70555 5.67963 6.18961 4.32314 9.05112 3.516C10.2401 3.18062 10.8346 3.01293 11.3156 3.00116C13.3831 2.95058 14.9264 4.52305 15 6.37499" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                         <path d="M10 12H21M10 12C10 11.2998 11.9943 9.99153 12.5 9.5M10 12C10 12.7002 11.9943 14.0085 12.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Logout
+                    <p>Logout</p>
                 </button>
             </label>
         </form>
         <div class="texts">
             <p class="role">Portineria</p>
-            <p class="name">Luigi Rossi</p>
+            <p class="name">{nome}</p>
         </div>
         <div class="pfp-image"></div>
     </div>
@@ -49,11 +49,49 @@
         <h2>Visite</h2>
         <div class="visite">
             {#for x in visit}
-                <div class="visita">
-                    <p>{x}</p>
-                </div>
+                {#if today.isAfter(x.getLocalDate())}
+                    <div class="visita" style="opacity: 0.3">
+                        <div class="visit-column">
+                            <p class="date-display">{x.date}</p>
+                            <p class="time-display">{x.startTime} - {x.endTime}</p>
+                        </div>
+
+                        <div class="visit-column inline">
+                            <p>Visitatore : {x.fiscalCodeVisitor}</p>
+                            <p>Dipendente : {x.fiscalCodeUser}</p>
+                        </div>
+                        <div class="badge-selector" style="opacity: 0">
+                            <div class="badge-circle" >1</div>
+                            <div class="badge-circle" >2</div>
+                            <div class="badge-circle" >3</div>
+                        </div>
+                        <button class="avvia" style="opacity: 0" ">Avvia</button>
+                    </div>
+                {/if}
+
+                {#if today.isBefore(x.getLocalDate())}
+                    <div class="visita">
+                        <div class="visit-column">
+                            <p class="date-display">{x.date}</p>
+                            <p class="time-display">{x.startTime} - {x.endTime}</p>
+                        </div>
+
+                        <div class="visit-column inline">
+                            <p>Visitatore : {x.fiscalCodeVisitor}</p>
+                            <p>Dipendente : {x.fiscalCodeUser}</p>
+                        </div>
+                        <div class="badge-selector">
+                            <div class="badge-circle" onclick="selezionaBadge(this, 1)">1</div>
+                            <div class="badge-circle" onclick="selezionaBadge(this, 2)">2</div>
+                            <div class="badge-circle" onclick="selezionaBadge(this, 3)">3</div>
+                        </div>
+                        <button class="avvia" onclick="avviaVisita(this)">Avvia</button>
+                    </div>
+                {/if}
+
             {/for}
 
+            <!--
             <div class="visita">
                 <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Non iniziata</span> | Badge: <span class="badge">Non assegnato</span></span>
                 <div class="badge-selector">
@@ -67,16 +105,15 @@
                 <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Iniziata</span> | Badge: <span class="badge">1</span></span>
                 <button class="termina" onclick="terminaVisita(this)">Termina</button>
             </div>
-
+            -->
         </div>
         <h2>Dipendenti</h2>
         <div class="dipendenti">
-            <div class="dipendenti-grid">
-                <div class="dipendente">Dipendente<br>Luca Rossi</div>
-                <div class="dipendente">Dipendente<br>Luca Rossi</div>
-                <div class="dipendente">Dipendente<br>Luca Rossi</div>
-                <div class="dipendente">Dipendente<br>Luca Rossi</div>
-            </div>
+            {#for y in employees}
+                <div class="dipendenti-grid">
+                    <div class="dipendente">Dipendente<br><span class="dipendent">{y.nameSurname}</span></div>
+                </div>
+            {/for}
         </div>
     </div>
 </div>

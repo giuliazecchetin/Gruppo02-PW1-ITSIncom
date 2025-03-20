@@ -149,7 +149,7 @@ nav {
 
     .container {
         width: 90%;
-        margin: 20px auto;
+        margin: 4rem auto;
         padding: 20px;
     }
 
@@ -227,17 +227,22 @@ nav {
     }
 
     .dipendenti-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 1rem;
     }
 
     .dipendente {
         background-color: rgba(255, 255, 255, 0.30);
-        padding: 20px;
+        padding: 3rem;
         text-align: center;
         border-radius: 25px;
-        font-weight: bold;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
         color: white;
+    }
+
+    .dipendent {
+        font-weight: bold;
+        font-size: 1.2rem;
     }
