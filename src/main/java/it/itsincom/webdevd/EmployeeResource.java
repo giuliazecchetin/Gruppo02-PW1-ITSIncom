@@ -97,30 +97,24 @@ public class EmployeeResource {
 
     @POST
     public Response addVisit(@FormParam("email") String email, @FormParam("fiscalCode")String fiscalCode, @FormParam("nameSurname")String nameSurname, @FormParam("phoneNumber")String phoneNumber, @FormParam("dateVisit") String date, @FormParam("startTime") String startTime, @FormParam("endTime") String endTime, @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId) {
-        Visitor visitor = new Visitor(email, fiscalCode, nameSurname, phoneNumber);
-        VisitorsManager.addVisitor(visitor);
         String id = " ";
         String duration = "";
         email = email.trim();
         email = email.replace(',', '.');
         fiscalCode = fiscalCode.trim();
         fiscalCode = fiscalCode.replace(',', '.');
-        email = email.trim();
-        email = email.replace(',', '.');
-        email = email.trim();
-        email = email.replace(',', '.');
-        email = email.trim();
-        email = email.replace(',', '.');
-        email = email.trim();
-        email = email.replace(',', '.');
-        email = email.trim();
-        email = email.replace(',', '.');
+        nameSurname = nameSurname.trim();
+        nameSurname = nameSurname.replace(',', '.');
+        phoneNumber = phoneNumber.trim();
+        phoneNumber = phoneNumber.replace(',', '.');
+        Visitor visitor = new Visitor(email, fiscalCode, nameSurname, phoneNumber);
         String status = "NON INIZIATA";
         String fiscalCodeVisitor = visitor.getFiscalCode();
         String fiscalCodeUser = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
         String badge = "NON ASSEGNATO";
         Visit newVisit = new Visit(id, date, startTime, endTime, duration, badge,  status, fiscalCodeUser, fiscalCodeVisitor);
         VisitsManager.addVisit(newVisit);
+        VisitorsManager.addVisitor(visitor);
 
         return Response.seeOther(URI.create("/employee")).build();
     }
