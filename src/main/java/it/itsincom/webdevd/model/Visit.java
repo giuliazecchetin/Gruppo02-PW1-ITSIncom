@@ -1,6 +1,7 @@
 package it.itsincom.webdevd.model;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Visit {
@@ -46,6 +47,12 @@ public class Visit {
         return id;
     }
     public String getDate() { return date; }
+
+
+    public LocalDate getLocalDate() {
+        String date1 = date.trim();
+        return LocalDate.parse(date1);
+    }
     public void setDate(String date) { this.date = date; }
     public String getStartTime() { return startTime; }
     public void setStartTime(String startTime) { this.startTime = startTime; }

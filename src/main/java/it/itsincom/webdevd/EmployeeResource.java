@@ -13,6 +13,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Path("/employee")
@@ -48,15 +50,19 @@ public class EmployeeResource {
         }
 
         String fiscalCode = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
+        String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
         System.out.println(fiscalCode);
         List<Visit> visits = VisitsManager.getVisitByFiscalCodeEmployee(fiscalCode);
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        today.format(formatter);
 
         if (visits == null || visits.isEmpty()) {
             return Response.ok(employee.instance()).build();
         }
 
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(employee.instance().data("visit", visits)).build();
+        return Response.ok(employee.data("visit", visits , "today", today, "nome",nameUser )).build();
 
     }
 

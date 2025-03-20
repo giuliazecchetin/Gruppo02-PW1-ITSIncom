@@ -24,7 +24,7 @@
     <div class="user">
         <div class="texts">
             <p class="role">Dipendente</p>
-            <p class="name">Mario Rossi</p>
+            <p class="name">{nome}</p>
         </div>
         <div class="pfp-image"></div>
     </div>
@@ -35,10 +35,19 @@
         <h2>Impegni Programmati</h2>
         <ul id="visitList">
             {#for x in visit}
+                {#if today.isAfter(x.getLocalDate())}
+                    <div class="">
+
+                        <p>{x}</p>
+                    </div>
+
+            {/if}
+                {#if today.isBefore(x.getLocalDate())}
                 <div class="visit">
 
                     <p>{x}</p>
                 </div>
+                {/if}
             {/for}
         </ul>
     </div>
