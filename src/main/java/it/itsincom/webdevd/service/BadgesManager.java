@@ -28,14 +28,23 @@ public class BadgesManager {
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length == 3) {
-                    if(Boolean.getBoolean(fields[INDEX_BADGEVISIBILITY]))
-                        badges.add(new Badge(fields[INDEX_BADGECODE], Integer.parseInt(fields[INDEX_BADGENUMBER]), Boolean.getBoolean(fields[INDEX_BADGEVISIBILITY])));
+                    String badgeVisibility = fields[INDEX_BADGEVISIBILITY].trim();
+                    boolean visible = false;
+                    if(badgeVisibility.equals("1")){
+                         visible= true;
+                    }
+                    if (visible) {
+                        System.out.println("SONO GAY");
+                        badges.add(new Badge(fields[INDEX_BADGECODE], Integer.parseInt(fields[INDEX_BADGENUMBER].trim()), Boolean.getBoolean(fields[INDEX_BADGEVISIBILITY].trim())));
+                    }
+
                 }
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("badges in badge manager" + badges);
         return badges;
     }
 

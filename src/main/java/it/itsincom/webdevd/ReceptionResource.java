@@ -2,8 +2,10 @@ package it.itsincom.webdevd;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
+import it.itsincom.webdevd.model.Badge;
 import it.itsincom.webdevd.model.User;
 import it.itsincom.webdevd.model.Visit;
+import it.itsincom.webdevd.service.BadgesManager;
 import it.itsincom.webdevd.service.CookiesSessionManager;
 import it.itsincom.webdevd.service.UsersManager;
 import it.itsincom.webdevd.service.VisitsManager;
@@ -26,13 +28,15 @@ public class ReceptionResource {
     private final Template login;
     private final CookiesSessionManager cookiesSessionManager;
     private final UsersManager usersManager;
+    private final BadgesManager badgesManager;
 
-    public ReceptionResource(Template reception, VisitsManager visitsManager, Template login, CookiesSessionManager cookiesSessionManager, UsersManager usersManager) {
+    public ReceptionResource(Template reception, VisitsManager visitsManager, Template login, CookiesSessionManager cookiesSessionManager, UsersManager usersManager, BadgesManager badgesManager) {
         this.reception = reception;
         this.visitsManager = visitsManager;
         this.login = login;
         this.cookiesSessionManager = cookiesSessionManager;
         this.usersManager = usersManager;
+        this.badgesManager = badgesManager;
     }
 
 
@@ -57,14 +61,15 @@ public class ReceptionResource {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         today.format(formatter);
         List<User> users = UsersManager.getAllEmployees();
-
-
+        List<Badge> badges = new ArrayList<>();
+        badges = BadgesManager.getAllBadges();
+        System.out.println("Total badge: " + badges);
         if (visits == null || visits.isEmpty()) {
             return Response.ok(reception.instance()).build();
         }
 
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(reception.data("visit", visits , "today", today, "nome",nameUser , "employees", users)).build();
+        return Response.ok(reception.data("visit", visits , "today", today, "nome",nameUser , "employees", users, "badge", badges)).build();
     }
 
     @GET
@@ -104,6 +109,12 @@ public class ReceptionResource {
         return Response.seeOther(URI.create("/login"))
                 .cookie(new NewCookie(cookiesSessionManager.COOKIE_SESSION, "", "/login", null, "Session expired", 0, false))
                 .build();
+    }
+
+    @POST
+    @Path("/badge")
+    public Response badge(@QueryParam("badge") String badge) {
+
     }
 
 }

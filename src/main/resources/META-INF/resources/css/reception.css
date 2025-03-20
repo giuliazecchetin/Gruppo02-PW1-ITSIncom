@@ -231,7 +231,7 @@ nav {
     align-items: center;
     justify-content: start;
     gap: 1rem;
-    flex-wrap: wrap; /* Permette di andare a capo se non c'è spazio */
+    flex-wrap: wrap;
 }
 
 .dipendente {
@@ -241,7 +241,7 @@ nav {
     border-radius: 25px;
     font-size: 1rem;
     color: white;
-    min-width: 150px; /* Imposta una larghezza minima per mantenere uniformità */
+    min-width: 150px;
 }
 
 .dipendent {
@@ -254,3 +254,15 @@ nav {
     padding: 10px;
     text-align: center;
 }
+
+.statusNotStart{
+    color:#A0C878;
+}
+.statusHappening{
+    color:#FFD95F;
+}
+.statusFinish{
+    color:#D50000;
+}
+
+

@@ -24,6 +24,7 @@ public class Visit {
         this.endTime = endTime;
         this.duration = duration;
         this.badgeCode = badgeCode;
+        this.status = status;
         this.fiscalCodeUser = fiscalCodeUser;
         this.fiscalCodeVisitor = fiscalCodeVisitor;
     }
