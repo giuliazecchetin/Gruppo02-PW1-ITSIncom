@@ -38,7 +38,7 @@
         </form>
         <div class="texts">
             <p class="role">Dipendente</p>
-            <p class="name">{nome}</p>
+            <p class="name"> {nome} </p>
         </div>
         <div class="pfp-image"></div>
     </div>
@@ -48,6 +48,9 @@
     <div class="left-panel">
         <h2>Impegni Programmati</h2>
         <ul id="visitList">
+            {#if visit.isEmpty()}
+                <p class="no-visits">Nessun impegno previsto in questa data.</p>
+            {/if}
             {#for x in visit}
                 {#if today.isAfter(x.getLocalDate())}
                     <div class="visit visit-gone">

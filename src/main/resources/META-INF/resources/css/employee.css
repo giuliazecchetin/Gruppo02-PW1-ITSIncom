@@ -137,6 +137,12 @@ nav {
         }
     }
 }
+.no-visits{
+    margin-top: 10px;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
 
 .homepage {
     display: flex;
