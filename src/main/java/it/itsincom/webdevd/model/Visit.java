@@ -14,6 +14,7 @@ public class Visit {
     private String status;
     private String fiscalCodeUser;
     private String fiscalCodeVisitor;
+    private Visitor visitor;
 
 
     public Visit(String id, String date, String startTime, String endTime, String duration, String badgeCode,String status, String fiscalCodeUser, String fiscalCodeVisitor) {
@@ -75,9 +76,8 @@ public class Visit {
                 duration + " " + badgeCode + " " + status + " " + fiscalCodeUser +
                 fiscalCodeVisitor;
         */
-        return  startTime + "-" + endTime + " " +
-                fiscalCodeVisitor + " " + fiscalCodeUser + " " +
-                status + " " + badgeCode;
+        return  startTime.trim() + " - " + endTime.trim() + " " + date.trim() +
+                  " " + " " ;
     }
 }
 

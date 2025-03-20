@@ -12,8 +12,9 @@ body {
     --normal-text: 1rem;
     --white-opacity30: #ffffff30;
     --primary-color: #9271FF;
+}
 
-    nav {
+nav {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -186,4 +187,3 @@ body {
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         color: white;
     }
-}
