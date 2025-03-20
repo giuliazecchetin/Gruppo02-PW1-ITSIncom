@@ -61,11 +61,11 @@
                             <p>Dipendente : {x.fiscalCodeUser}</p>
                         </div>
                         <div class="badge-selector" style="opacity: 0">
-                            <div class="badge-circle" >1</div>
-                            <div class="badge-circle" >2</div>
-                            <div class="badge-circle" >3</div>
+                            {#for y in badge}
+                            <div class="badge-circle" >{y.badgeNumber}</div>
                         </div>
-                        <button class="avvia" style="opacity: 0" ">Avvia</button>
+                        {/for}
+                        <button class="avvia" style="opacity: 0">Avvia</button>
                     </div>
                 {/if}
 
@@ -91,21 +91,6 @@
 
             {/for}
 
-            <!--
-            <div class="visita">
-                <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Non iniziata</span> | Badge: <span class="badge">Non assegnato</span></span>
-                <div class="badge-selector">
-                    <div class="badge-circle" onclick="selezionaBadge(this, 1)">1</div>
-                    <div class="badge-circle" onclick="selezionaBadge(this, 2)">2</div>
-                    <div class="badge-circle" onclick="selezionaBadge(this, 3)">3</div>
-                </div>
-                <button class="avvia" onclick="avviaVisita(this)">Avvia</button>
-            </div>
-            <div class="visita">
-                <span>9:00 - 10:00 | Visitatore: Luca Rossi | Stato: <span class="stato">Iniziata</span> | Badge: <span class="badge">1</span></span>
-                <button class="termina" onclick="terminaVisita(this)">Termina</button>
-            </div>
-            -->
         </div>
         <h2>Dipendenti</h2>
         <div class="dipendenti-grid">
@@ -120,29 +105,5 @@
     </div>
 </div>
 
-<script>
-    function selezionaBadge(element, numero) {
-        let visita = element.closest(".visita");
-        let stato = visita.querySelector(".stato").innerText;
-        let badgeText = visita.querySelector(".badge");
-        if (stato === "Non iniziata") {
-            badgeText.innerText = numero;
-        }
-    }
-    function avviaVisita(button) {
-        let visita = button.parentElement;
-        visita.querySelector(".stato").innerText = "Iniziata";
-        button.classList.remove("avvia");
-        button.classList.add("termina");
-        button.innerText = "Termina";
-        button.setAttribute("onclick", "terminaVisita(this)");
-    }
-
-    function terminaVisita(button) {
-        let visita = button.parentElement;
-        visita.querySelector(".stato").innerText = "Terminata";
-        button.style.display = "none";
-    }
-</script>
 </body>
 </html>
