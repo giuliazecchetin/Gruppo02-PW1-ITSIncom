@@ -71,16 +71,5 @@ public class Visit {
     public void setFiscalCodeUser(String fiscalCodeUser) { this.fiscalCodeUser = fiscalCodeUser; }
     public String getFiscalCodeVisitor() { return fiscalCodeVisitor; }
     public void setFiscalCodeVisitor(String fiscalCodeVisitor) { this.fiscalCodeVisitor = fiscalCodeVisitor; }
-
-
-    @Override
-    public String toString() {
-        /*return  id + " " + date + " " + startTime + " " + endTime + " " +
-                duration + " " + badgeCode + " " + status + " " + fiscalCodeUser +
-                fiscalCodeVisitor;
-        */
-        return  startTime.trim() + " - " + endTime.trim() + " " + date.trim() +
-                  " " + " " ;
-    }
 }
 

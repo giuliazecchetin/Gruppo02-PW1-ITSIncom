@@ -135,11 +135,12 @@
                             </form>
                         </div>
                         {#if x.status.trim() == "IN CORSO"}
-                        <form action=".." method="post">
-                        <button class="avvia" >Termina</button>
-
-                        </form>
+                            <form action="/reception/terminate" method="post">
+                                <button class="termina" type="submit">Termina</button>
+                                <input type="hidden" name="id" value="{x.id}">
+                            </form>
                         {/if}
+
                     </div>
                 {/if}
 

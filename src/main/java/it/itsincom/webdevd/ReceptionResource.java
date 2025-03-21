@@ -83,6 +83,8 @@ public class ReceptionResource {
             return Response.status(Response.Status.NOT_FOUND).entity("No visits found").build();
         }
         LocalDate today = LocalDate.now();
+        List<Badge> badges = new ArrayList<>();
+        badges = BadgesManager.getAllBadges();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         today.format(formatter);
         String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
@@ -90,14 +92,14 @@ public class ReceptionResource {
             visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
             visits.removeLast();
             System.out.println(visits);
-            return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users)).build();
+            return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users, "badge", badges)).build();
         }
         datePr = LocalDate.parse(dateSort);
 
 
         List<Visit> visitsWithSpecificDate = null;
         visitsWithSpecificDate = visits.stream().filter(v -> v.getLocalDate().isEqual(datePr)).toList();
-        return Response.ok(reception.data("visit", visitsWithSpecificDate, "today", today, "nome", nameUser, "employees", users)).build();
+        return Response.ok(reception.data("visit", visitsWithSpecificDate, "today", today, "nome", nameUser, "employees", users, "badge", badges)).build();
     }
 
     @POST
@@ -137,6 +139,7 @@ public class ReceptionResource {
         }
         if (id != null) {
         Visit visitId = VisitsManager.getVisitById(id);
+
         if (visitId != null) {
             System.out.println("Visit: " + visitId);
             Badge badge1 = BadgesManager.getBadgeByBadgeNumber(Integer.parseInt(badgeNum.trim()));
@@ -149,11 +152,52 @@ public class ReceptionResource {
             BadgesManager.deleteBadgeByCode(badge1.getCodeBadge().trim());
             BadgesManager.addBadge(badge1);
         }
-        }
+    }
+
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
         return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users, "badge", badges)).build();
     }
-}
+
+    @POST
+    @Path("/terminate")
+    public Response terminateVisit(
+            @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId,
+            @FormParam("id") String id
+    ) {
+        if (sessionId == null || sessionId.isEmpty()) {
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(login.data("message", "Unauthorized access. Please login.")
+                            .data("redirect", true))
+                    .build();
+        }
+
+        Visit visitId = VisitsManager.getVisitById(id);
+
+        if (visitId != null) {
+            // Set visit status to "TERMINATA"
+            visitId.setStatus("TERMINATA");
+
+            // Extract the badge number (assuming it's saved as part of visit data)
+            String badgeNumber = visitId.getBadgeCode().trim();
+
+            // Get the badge using the number and make it available again
+            Badge badge1 = BadgesManager.getBadgeByBadgeCode(badgeNumber);
+            if (badge1 != null) {
+                badge1.setBadgeVisible(true);
+                BadgesManager.deleteBadgeByCode(badge1.getCodeBadge());
+                BadgesManager.addBadge(badge1);
+            }
+
+            // Update the visit in the database
+            VisitsManager.deleteVisitById(id);
+            VisitsManager.addVisit(visitId);
+        }
+
+        // Redirect to refresh
+        return Response.seeOther(URI.create("/reception")).build();
+
+    }
+    }
 
 
 

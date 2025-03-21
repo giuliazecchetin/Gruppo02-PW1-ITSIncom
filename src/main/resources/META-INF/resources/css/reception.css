@@ -224,17 +224,6 @@ form {
     gap: 10px;
 }
 
-    button.avvia {
-        background-color: red;
-        color: white;
-        border: none;
-        padding: 14px 22px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
     button.termina {
         background-color: #D50000;
         color: white;
@@ -243,7 +232,6 @@ form {
         border-radius: 25px;
         cursor: pointer;
         font-size: 16px;
-        font-weight: bold;
     }
 
 .dipendenti-grid {
