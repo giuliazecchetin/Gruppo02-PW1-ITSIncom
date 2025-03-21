@@ -116,20 +116,30 @@
                             <form action="/reception/badge" method="post">
                                 <div class="badge-container">
                                     <p class="badge-title">Badge:</p>
+
                                     <div class="badge-buttons">
                                         {#for z in badge}
+
                                             <label>
-                                                <button class="badge-circle">{z.badgeNumber}</button>
-                                                <input type="hidden" name="id" value="{visit.id}">
+                                                <button type="submit" class="badge-circle">{z.badgeNumber}</button>
+                                                <input type="hidden" name="id" value="{x.id}">
+                                                <input type="hidden" name="badge" value="{z.badgeNumber}">
                                             </label>
+
                                         {/for}
+                                        {#if x.badgeCode.trim() != "NON ASSEGNATO"}
+                                            <p>{x.badgeCode}</p>
+                                        {/if}
                                     </div>
                                 </div>
                             </form>
                         </div>
+                        {#if x.status.trim() == "IN CORSO"}
+                        <form action=".." method="post">
+                        <button class="avvia" >Termina</button>
 
-
-                        <button class="avvia" onclick="avviaVisita(this)">Avvia</button>
+                        </form>
+                        {/if}
                     </div>
                 {/if}
 

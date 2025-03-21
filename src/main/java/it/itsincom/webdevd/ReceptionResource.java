@@ -69,7 +69,7 @@ public class ReceptionResource {
         }
 
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
-        return Response.ok(reception.data("visit", visits , "today", today, "nome",nameUser , "employees", users, "badge", badges)).build();
+        return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users, "badge", badges)).build();
     }
 
     @GET
@@ -86,18 +86,18 @@ public class ReceptionResource {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         today.format(formatter);
         String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
-        if (dateSort == null){
+        if (dateSort == null) {
             visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
             visits.removeLast();
             System.out.println(visits);
-            return Response.ok(reception.data("visit", visits , "today", today, "nome",nameUser, "employees", users)).build();
+            return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users)).build();
         }
         datePr = LocalDate.parse(dateSort);
 
 
-        List <Visit> visitsWithSpecificDate = null;
-        visitsWithSpecificDate = visits.stream().filter(v-> v.getLocalDate().isEqual(datePr)).toList();
-        return Response.ok(reception.data("visit", visitsWithSpecificDate , "today", today, "nome",nameUser, "employees", users)).build();
+        List<Visit> visitsWithSpecificDate = null;
+        visitsWithSpecificDate = visits.stream().filter(v -> v.getLocalDate().isEqual(datePr)).toList();
+        return Response.ok(reception.data("visit", visitsWithSpecificDate, "today", today, "nome", nameUser, "employees", users)).build();
     }
 
     @POST
@@ -112,43 +112,50 @@ public class ReceptionResource {
     }
 
     @POST
+    @Path("/badge")
+    public Response badge(@CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId, @FormParam("id") String id, @FormParam("badge") String badgeNum) {
+        List<Visit> visitsAll = VisitsManager.getAllVisits();
+        if (sessionId == null || sessionId.isEmpty()) {
 
-        @Path("/badge")
-        public Response badge(
-                @QueryParam("badge") String badge,
-                @CookieParam(CookiesSessionManager.COOKIE_SESSION) String sessionId,
-                @FormParam("id") String idVisit) {
-
-            String fiscalCode = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
-            String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
-            System.out.println("Fiscal Code: " + fiscalCode);
-
-            List<Visit> visits = VisitsManager.getAllVisits();
-            LocalDate today = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String formattedDate = today.format(formatter); // Store the formatted date
-
-            List<User> users = UsersManager.getAllEmployees();
-            List<Badge> badges = BadgesManager.getAllBadges();
-
-            if (visits == null || visits.isEmpty()) {
-                return Response.ok(reception.instance()).build();
-            }
-
-            for (Visit v : visits) {
-                // Example: Print visit ID
-                System.out.println("Visit ID: " + v.getId());
-            }
-
-            visits.sort(Comparator.comparing(Visit::getDate)
-                    .thenComparing(Visit::getStartTime)
-                    .reversed());
-
-            return Response.ok(reception.data("visit", visits, "today", formattedDate, "nome", nameUser, "employees", users, "badge", badges)).build();
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(login.data("message", "Unauthorized access. Please login.")
+                            .data("redirect", true))
+                    .build();
         }
+        String fiscalCode = cookiesSessionManager.getUserFromSession(sessionId).getFiscalCode();
+        String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
+        System.out.println(fiscalCode);
+        List<Visit> visits = VisitsManager.getAllVisits();
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        today.format(formatter);
+        List<User> users = UsersManager.getAllEmployees();
+        List<Badge> badges = new ArrayList<>();
+        badges = BadgesManager.getAllBadges();
+        if (visits == null || visits.isEmpty()) {
+            return Response.ok(reception.instance()).build();
+        }
+        if (id != null) {
+        Visit visitId = VisitsManager.getVisitById(id);
+        if (visitId != null) {
+            System.out.println("Visit: " + visitId);
+            Badge badge1 = BadgesManager.getBadgeByBadgeNumber(Integer.parseInt(badgeNum.trim()));
+            System.out.println("Badge: " + badge1);
+            visitId.setBadgeCode(badge1.getCodeBadge().trim());
+            visitId.setStatus("IN CORSO");
+            VisitsManager.deleteVisitById(id);
+            VisitsManager.addVisit(visitId);
+            badge1.setBadgeVisible(false);
+            BadgesManager.deleteBadgeByCode(badge1.getCodeBadge().trim());
+            BadgesManager.addBadge(badge1);
+        }
+        }
+        visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
+        return Response.ok(reception.data("visit", visits, "today", today, "nome", nameUser, "employees", users, "badge", badges)).build();
     }
-
-
-
-
 }
+
+
+
+
+

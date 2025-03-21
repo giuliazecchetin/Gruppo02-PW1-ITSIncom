@@ -30,8 +30,9 @@ public class Visit {
     }
 
     public void calculateDuration(String start, String end) {
-        LocalTime startTime = LocalTime.parse(start);
-        LocalTime endTime = LocalTime.parse(end);
+        LocalTime startTime = LocalTime.parse(start.trim());
+        if (end != null) {
+        LocalTime endTime = LocalTime.parse(end.trim());
         if (endTime.isAfter(startTime)) {
             Duration duration = Duration.between(startTime, endTime);
             long hours = duration.toHours();
@@ -39,6 +40,7 @@ public class Visit {
         }
         else if (endTime.isBefore(startTime)) {
             this.endTime = "";
+        }
         }
 
     }

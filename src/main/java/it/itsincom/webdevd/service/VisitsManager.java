@@ -135,7 +135,7 @@ public class VisitsManager {
         String dateString = visit.getDate();
         System.out.println(dateString);
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(dateString, formatter1);
+        LocalDate date = LocalDate.parse(dateString.trim(), formatter1);
         LocalDate today = LocalDate.now();
         LocalDate todayPlusDay = LocalDate.now().plusDays(1);
         visit.calculateDuration(visit.getStartTime(), visit.getEndTime());
@@ -143,7 +143,7 @@ public class VisitsManager {
             if (getVisitByDateAndHour(dateString, visit.getStartTime()) == null) {
                 try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(CSV_FILE), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
                     String dateToInsert = visit.getDate();
-                    LocalDate localDate = LocalDate.parse(dateToInsert, formatter1);
+                    LocalDate localDate = LocalDate.parse(dateToInsert.trim(), formatter1);
                     String line = String.join(", ", visit.getId(),localDate.toString(), visit.getStartTime(), visit.getEndTime(),
                             visit.getDuration(), visit.getBadgeCode(), visit.getStatus(), visit.getFiscalCodeUser().toUpperCase(), visit.getFiscalCodeVisitor().toUpperCase());
                     bw.write(line);
@@ -161,19 +161,21 @@ public class VisitsManager {
     }
 
 
-    // public static void removeVisit(Visit visit) {
+    public static void deleteVisitById(String visitId) {
+        Path path = Paths.get(CSV_FILE);
+        try {
+            // Legge tutte le righe e filtra quelle che NON corrispondono all'ID da eliminare
+            List<String> filteredLines = Files.lines(path)
+                    .filter(line -> !line.startsWith(visitId + ",")) // Filtra la riga con l'ID specifico
+                    .collect(Collectors.toList());
 
-        // try {
-           // updatedLines = Files.lines(path)
-                //    .filter(line -> !line.startsWith(fiscalCodeToDelete + ",")) // Assuming CSV is comma-separated
-           //         .collect(Collectors.toList());
-
-            // Write back the updated content
-           // Files.write(path, updatedLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-         //   System.out.println("Deleted line with fiscalCode: " + fiscalCodeToDelete);
-        // } catch (IOException e) {
-        //    e.printStackTrace();
-      //  }
+            // Riscrive il file con le righe rimanenti
+            Files.write(path, filteredLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            System.out.println("Visita con ID " + visitId + " eliminata con successo.");
+        } catch (IOException e) {
+            System.err.println("Errore durante l'eliminazione della visita: " + e.getMessage());
+        }
     }
 }
+
 

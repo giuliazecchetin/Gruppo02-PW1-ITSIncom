@@ -6,11 +6,16 @@ import it.itsincom.webdevd.model.Visit;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class BadgesManager {
@@ -57,7 +62,7 @@ public class BadgesManager {
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
                 if (fields.length == 3) {
-                    if (id == Integer.parseInt(fields[INDEX_BADGENUMBER])) {
+                    if (id == Integer.parseInt(fields[INDEX_BADGENUMBER].trim())) {
                         badge = new Badge(fields[INDEX_BADGECODE], id, Boolean.getBoolean(fields[INDEX_BADGEVISIBILITY]));
                     }
                 }
@@ -87,6 +92,37 @@ public class BadgesManager {
             e.printStackTrace();
         }
         return badge;
+    }
+    public static void deleteBadgeByCode(String codeBadge) {
+        Path path = Paths.get(CSV_FILE);
+        try {
+            // Legge tutte le righe e filtra quelle che NON corrispondono all'ID da eliminare
+            List<String> filteredLines = Files.lines(path)
+                    .filter(line -> !line.startsWith(codeBadge.trim() + ",")) // Filtra la riga con l'ID specifico
+                    .collect(Collectors.toList());
+
+            // Riscrive il file con le righe rimanenti
+            Files.write(path, filteredLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            System.out.println("Visita con ID " + codeBadge + " eliminata con successo.");
+        } catch (IOException e) {
+            System.err.println("Errore durante l'eliminazione della visita: " + e.getMessage());
+        }
+    }
+    public static void addBadge(Badge badge) {
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(CSV_FILE), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+
+            String line = String.join(",",
+                    badge.getCodeBadge(),
+                    String.valueOf(badge.getBadgeNumber()),
+                    String.valueOf(badge.isBadgeVisible())
+            );
+
+            bw.write(line);
+            bw.newLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
