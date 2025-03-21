@@ -25,9 +25,7 @@ public class CookiesSessionManager {
 
     public User getUserFromSession(String sessionId) {
         sessionId = sessionId.substring(sessionId.indexOf('=')+1);
-        System.out.println("sessionID equals = " + sessionId);
         User user = sessions.get(sessionId);
-        System.out.println("user is = " + user);
         return user;
     }
 

@@ -36,7 +36,6 @@ public class VisitsManager {
                     String[] fields = line.split(",");
                     if (fields.length == 9) {
                         visits.add(new Visit(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], fields[7], fields[8]));
-                        System.out.println( "visite nel manager " + visits.toString());
                     }
 
             }
@@ -193,12 +192,10 @@ public class VisitsManager {
     public static void deleteVisitById(String visitId) {
         Path path = Paths.get(CSV_FILE);
         try {
-            // Legge tutte le righe e filtra quelle che NON corrispondono all'ID da eliminare
             List<String> filteredLines = Files.lines(path)
-                    .filter(line -> !line.startsWith(visitId + ",")) // Filtra la riga con l'ID specifico
+                    .filter(line -> !line.startsWith(visitId + ","))
                     .collect(Collectors.toList());
 
-            // Riscrive il file con le righe rimanenti
             Files.write(path, filteredLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             System.out.println("Visita con ID " + visitId + " eliminata con successo.");
         } catch (IOException e) {

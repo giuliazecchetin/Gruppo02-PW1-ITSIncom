@@ -23,22 +23,7 @@ public class VisitorsManager {
     public List<Visitor> getAllVisitors() {
         return getallVisitors(new NoFilter(), false);
 
-//        List<Visitor> visitors = new ArrayList<>();
-//        try (BufferedReader br = Files.newBufferedReader(Paths.get(CSV_FILE))) {
-//            br.readLine();
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//
-//                    line.trim();
-//                    String[] fields = line.split(",");
-//                    if (fields.length == 6) {
-//                        visitors.add(new Visitor(fields[0], fields[1], fields[2], fields[3]));
-//                    }
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return visitors;
+
 
     }
     private static List<Visitor> getallVisitors(Filter f, boolean breakOnFirstMatch) {
@@ -72,26 +57,7 @@ public class VisitorsManager {
                 true);
         return visitors.isEmpty() ? null : visitors.getFirst();
 
-//        Visitor visitor = null;
-//        int i = 0;
-//        try (BufferedReader br = Files.newBufferedReader(Paths.get(CSV_FILE))) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                if (i != 0) {
-//                    String[] fields = line.trim().split(",");
-//                    if (fields.length == 6) {
-//                       if (fields[1].equals(fiscalCode)) {
-//                           visitor = new Visitor(fields[0], fields[1], fields[2], fields[3]);
-//                       }
-//                   }
-//
-//                }
-//                i++;
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return visitor;
+
 
     }
 
@@ -108,7 +74,6 @@ public class VisitorsManager {
                 bw.write(line);
                 bw.newLine();
             } else {
-                // TODO: handle when visitor already exist based on FC
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -46,7 +46,7 @@ public class Visit {
 
     }
 
-    // Getters e Setters
+
     public String getId() { return id; }
     public String setId(String id) { this.id = id;
         return id;

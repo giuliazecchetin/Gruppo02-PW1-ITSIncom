@@ -67,7 +67,8 @@
                     </div>
                 {/if}
 
-                {#if today.isBefore(x.getLocalDate()) && x.status.trim() == "NON INIZIATA"}
+                {#if today.isBefore(x.getLocalDate()) || today == x.getLocalDate()}
+                    {#if x.status.trim() == "NON INIZIATA"}
                     <div class="visit">
                         <div class="visit-column">
                             <p class="date-display">{x.date}</p>
@@ -79,6 +80,7 @@
                             <p>Dipendente :  <strong>{x.fiscalCodeUser} </strong></p>
                         </div>
                     </div>
+                    {/if}
                 {/if}
             {/for}
         </ul>

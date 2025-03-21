@@ -48,7 +48,6 @@ public class BadgesManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("badges in badge manager" + badges);
         return badges;
     }
 
@@ -96,12 +95,10 @@ public class BadgesManager {
     public static void deleteBadgeByCode(String codeBadge) {
         Path path = Paths.get(CSV_FILE);
         try {
-            // Legge tutte le righe e filtra quelle che NON corrispondono all'ID da eliminare
             List<String> filteredLines = Files.lines(path)
-                    .filter(line -> !line.startsWith(codeBadge.trim() + ",")) // Filtra la riga con l'ID specifico
+                    .filter(line -> !line.startsWith(codeBadge.trim() + ","))
                     .collect(Collectors.toList());
 
-            // Riscrive il file con le righe rimanenti
             Files.write(path, filteredLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             System.out.println("Visita con ID " + codeBadge + " eliminata con successo.");
         } catch (IOException e) {
