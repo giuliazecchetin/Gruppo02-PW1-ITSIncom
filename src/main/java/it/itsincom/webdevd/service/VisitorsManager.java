@@ -20,7 +20,7 @@ public class VisitorsManager {
     private static final String CSV_FILE = "src/main/resources/data/visitorData.csv";
     private static final int ID_INDEX =4 ;
 
-    public List<Visitor> getallVisitors() {
+    public List<Visitor> getAllVisitors() {
         return getallVisitors(new NoFilter(), false);
 
 //        List<Visitor> visitors = new ArrayList<>();

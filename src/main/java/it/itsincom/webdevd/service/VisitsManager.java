@@ -11,7 +11,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+
 @ApplicationScoped
 public class VisitsManager {
     private static final String CSV_FILE = "src/main/resources/data/visit.csv";
@@ -19,7 +20,10 @@ public class VisitsManager {
 
 
     public static void showAlert(String message) {
-        JOptionPane.showMessageDialog(null, message, "Attenzione", JOptionPane.WARNING_MESSAGE);
+        JFrame frame = new JFrame();
+        frame.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(frame, message, "Attenzione", JOptionPane.WARNING_MESSAGE);
+        frame.dispose();
     }
 
 
@@ -147,29 +151,29 @@ public class VisitsManager {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (getVisitByDateAndHour(dateString, visit.getStartTime()) != null) {
-                showAlert("Impossibile inserire la visita : esiste già per questa data e in questa ora!");
-
             }
-
-            } else if (date.isBefore(todayPlusDay)) {
-            showAlert("Impossibile inserire la visita : Inserire la visita con un giorno d'anticipo!");
-
+            else if (getVisitByDateAndHour(dateString, visit.getStartTime()) != null) {
+                showAlert("Impossibile inserire la visita: esiste già per questa data e in questa ora!");
+            }
+        } else if (date.isBefore(todayPlusDay)) {
+            showAlert("Impossibile inserire la visita: inserire la visita con un giorno d'anticipo!");
         }
-        }
-    public static void removeVisit(Visit visit) {
+    }
 
-        try {
-            updatedLines = Files.lines(path)
-                    .filter(line -> !line.startsWith(fiscalCodeToDelete + ",")) // Assuming CSV is comma-separated
-                    .collect(Collectors.toList());
+
+    // public static void removeVisit(Visit visit) {
+
+        // try {
+           // updatedLines = Files.lines(path)
+                //    .filter(line -> !line.startsWith(fiscalCodeToDelete + ",")) // Assuming CSV is comma-separated
+           //         .collect(Collectors.toList());
 
             // Write back the updated content
-            Files.write(path, updatedLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-            System.out.println("Deleted line with fiscalCode: " + fiscalCodeToDelete);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+           // Files.write(path, updatedLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+         //   System.out.println("Deleted line with fiscalCode: " + fiscalCodeToDelete);
+        // } catch (IOException e) {
+        //    e.printStackTrace();
+      //  }
     }
 }
 
