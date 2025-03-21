@@ -18,6 +18,7 @@ import jakarta.ws.rs.core.Response;
 import java.io.*;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -147,7 +148,7 @@ public class ReceptionResource {
             visitId.setBadgeCode(badge1.getCodeBadge().trim());
             visitId.setStatus("IN CORSO");
             VisitsManager.deleteVisitById(id);
-            VisitsManager.addVisit(visitId);
+            VisitsManager.addVisitWithoutControl(visitId);
             badge1.setBadgeVisible(false);
             BadgesManager.deleteBadgeByCode(badge1.getCodeBadge().trim());
             BadgesManager.addBadge(badge1);
@@ -174,13 +175,24 @@ public class ReceptionResource {
         Visit visitId = VisitsManager.getVisitById(id);
 
         if (visitId != null) {
-            // Set visit status to "TERMINATA"
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
             visitId.setStatus("TERMINATA");
 
-            // Extract the badge number (assuming it's saved as part of visit data)
+            LocalTime hourNow = LocalTime.now();
+            String hourNowStr = hourNow.format(formatter);
+            hourNow = LocalTime.parse(hourNowStr.trim());
+            if(hourNow.isBefore(LocalTime.parse(visitId.getStartTime().trim()))){
+                LocalTime hourBefore = LocalTime.now();
+                String hourBeforeStr = hourNow.format(formatter);
+                hourBeforeStr = hourBeforeStr.trim();
+                visitId.setStartTime(hourBeforeStr);
+            }
+            visitId.setEndTime(hourNow.toString());
+
             String badgeNumber = visitId.getBadgeCode().trim();
 
-            // Get the badge using the number and make it available again
+
             Badge badge1 = BadgesManager.getBadgeByBadgeCode(badgeNumber);
             if (badge1 != null) {
                 badge1.setBadgeVisible(true);
@@ -188,12 +200,11 @@ public class ReceptionResource {
                 BadgesManager.addBadge(badge1);
             }
 
-            // Update the visit in the database
+
             VisitsManager.deleteVisitById(id);
-            VisitsManager.addVisit(visitId);
+            VisitsManager.addVisitWithoutControl(visitId);
         }
 
-        // Redirect to refresh
         return Response.seeOther(URI.create("/reception")).build();
 
     }

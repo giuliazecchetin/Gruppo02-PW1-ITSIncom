@@ -52,7 +52,8 @@
                 <p class="no-visits">Nessun impegno previsto in questa data.</p>
             {/if}
             {#for x in visit}
-                {#if today.isAfter(x.getLocalDate())}
+                {#if today.isAfter(x.getLocalDate()) || x.status.trim() != "NON INIZIATA"}
+
                     <div class="visit visit-gone">
                         <div class="visit-column">
                             <p class="date-display">{x.date}</p>
@@ -66,7 +67,7 @@
                     </div>
                 {/if}
 
-                {#if today.isBefore(x.getLocalDate())}
+                {#if today.isBefore(x.getLocalDate()) && x.status.trim() == "NON INIZIATA"}
                     <div class="visit">
                         <div class="visit-column">
                             <p class="date-display">{x.date}</p>

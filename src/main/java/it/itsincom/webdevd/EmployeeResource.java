@@ -63,6 +63,10 @@ public class EmployeeResource {
         }
 
         visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
+
+
+
+
         return Response.ok(employee.data("visit", visits, "today", today, "nome", nameUser)).build();
 
     }
@@ -82,6 +86,10 @@ public class EmployeeResource {
         String nameUser = cookiesSessionManager.getUserFromSession(sessionId).getNameSurname();
         if (dateSort == null){
             visits.sort(Comparator.comparing(Visit::getDate).thenComparing(Visit::getStartTime).reversed());
+
+
+
+
             visits.removeLast();
             System.out.println(visits);
             return Response.ok(employee.data("visit", visits , "today", today, "nome",nameUser)).build();

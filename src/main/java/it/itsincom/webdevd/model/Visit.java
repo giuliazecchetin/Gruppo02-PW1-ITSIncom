@@ -3,6 +3,7 @@ package it.itsincom.webdevd.model;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Visit {
     private String id;
@@ -31,7 +32,7 @@ public class Visit {
 
     public void calculateDuration(String start, String end) {
         LocalTime startTime = LocalTime.parse(start.trim());
-        if (end != null) {
+        if (end != null && !end.equals(" ") && !end.equals("")) {
         LocalTime endTime = LocalTime.parse(end.trim());
         if (endTime.isAfter(startTime)) {
             Duration duration = Duration.between(startTime, endTime);
@@ -54,8 +55,10 @@ public class Visit {
 
 
     public LocalDate getLocalDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date1 = date.trim();
-        return LocalDate.parse(date1);
+        LocalDate date2 = LocalDate.parse(date1, formatter);
+        return date2;
     }
     public void setDate(String date) { this.date = date; }
     public String getStartTime() { return startTime; }

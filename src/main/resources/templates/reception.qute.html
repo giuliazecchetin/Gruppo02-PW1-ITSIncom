@@ -82,7 +82,7 @@
 
 
 
-                {#if today.isBefore(x.getLocalDate())}
+                {#if today.isBefore(x.getLocalDate()) || today == x.getLocalDate()}
                     <div class="visita">
                         <div class="visit-column">
                             <p class="date-display">{x.date}</p>
@@ -120,17 +120,19 @@
                                     <div class="badge-buttons">
                                         {#for z in badge}
 
+                                        {#if x.status.trim() == "NON INIZIATA" && x.getLocalDate == today}
                                             <label>
                                                 <button type="submit" class="badge-circle">{z.badgeNumber}</button>
                                                 <input type="hidden" name="id" value="{x.id}">
                                                 <input type="hidden" name="badge" value="{z.badgeNumber}">
                                             </label>
-
+                                            {/if}
                                         {/for}
                                         {#if x.badgeCode.trim() != "NON ASSEGNATO"}
                                             <p>{x.badgeCode}</p>
                                         {/if}
                                     </div>
+
                                 </div>
                             </form>
                         </div>

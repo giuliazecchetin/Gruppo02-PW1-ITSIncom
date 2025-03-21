@@ -35,7 +35,7 @@ public class BadgesManager {
                 if (fields.length == 3) {
                     String badgeVisibility = fields[INDEX_BADGEVISIBILITY].trim();
                     boolean visible = false;
-                    if(badgeVisibility.equals("1")){
+                    if(badgeVisibility.equals("true")){
                          visible= true;
                     }
                     if (visible) {
